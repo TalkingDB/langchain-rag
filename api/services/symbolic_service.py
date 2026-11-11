@@ -63,7 +63,7 @@ def query(query_text: str) -> dict:
     """Answer a question from the Neo4j graph.
 
     Makes the same calls as query_data_by_wsd.main(): link the query's entities to synsets
-    with the WSD service, fetch every chunk mentioning one of those synsets, then answer
+    with the WSD service, rank chunks with Personalized PageRank seeded from those synsets, then answer
     with the shared prompt and model. main() itself can't be called because it parses
     sys.argv and prints its answer instead of returning it.
     """
@@ -86,7 +86,7 @@ def query(query_text: str) -> dict:
     if synset_ids:
         graph = GraphRepository()
         try:
-            results = graph.find_chunks_by_synset_ids(synset_ids)
+            results = graph.find_chunks_by_ppr(synset_ids)
         finally:
             graph.close()
     if len(results) == 0:

@@ -21,12 +21,12 @@ def main():
     print(f"Query synsets: {[(s['surface'], s['synset_id']) for s in senses]}")
     synset_ids = list(dict.fromkeys(s["synset_id"] for s in senses))
 
-    # Find every chunk mentioning one of those synsets (exact match), most matched synsets first.
+    # Rank chunks with Personalized PageRank seeded from those synsets and keep the top few.
     results = []
     if synset_ids:
         graph = GraphRepository()
         try:
-            results = graph.find_chunks_by_synset_ids(synset_ids)
+            results = graph.find_chunks_by_ppr(synset_ids)
         finally:
             graph.close()
     if len(results) == 0:

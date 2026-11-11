@@ -264,3 +264,103 @@ class GraphRepository:
             query, synset_ids=synset_ids, database_=self.database
         )
         return [record.data() for record in records]
+
+    def find_chunks_by_ppr(
+        self,
+        synset_ids: list[str],
+        top_k: int = 5,
+        damping: float = 0.85,
+        max_iter: int = 100,
+        tol: float = 1e-8,
+    ) -> list[dict[str, Any]]:
+        """
+        Rank chunks with Personalized PageRank seeded from the query's synsets.
+
+        A random walk over the bipartite Chunk-MENTIONS-Sense graph restarts at the
+        query's Sense nodes with probability (1 - damping). Chunks whose senses are
+        close to many query senses collect the most score. A sense that appears in
+        many chunks splits its score among them, so common senses count for less than
+        rare ones. Chunks that share senses with the matching chunks also get score,
+        even if they mention none of the query's synsets.
+
+        The walk runs on the local subgraph within three hops of the seeds:
+        seed sense -> chunk -> sense -> chunk. Returns the top_k chunks with their
+        PPR score and the number of query synsets each one mentions directly.
+        """
+
+        seeds = list(dict.fromkeys(synset_ids))
+        if not seeds:
+            return []
+
+        # Seed lookup still uses the range index behind sense_synset_id_unique.
+        subgraph_query = """
+        MATCH (seed:Sense) WHERE seed.synset_id IN $synset_ids
+        MATCH (seed)<-[:MENTIONS]-(c1:Chunk)
+        WITH collect(DISTINCT c1) AS hop1
+        CALL (hop1) {
+            UNWIND hop1 AS c1
+            MATCH (c1)-[:MENTIONS]->(:Sense)<-[:MENTIONS]-(c2:Chunk)
+            RETURN collect(DISTINCT c2) AS hop3
+        }
+        UNWIND hop1 + hop3 AS chunk
+        WITH DISTINCT chunk
+        MATCH (chunk)-[:MENTIONS]->(sense:Sense)
+        RETURN chunk.id AS chunk_id, sense.synset_id AS synset_id, count(*) AS weight
+        """
+        records, _, _ = self.driver.execute_query(
+            subgraph_query, synset_ids=seeds, database_=self.database
+        )
+        if not records:
+            return []
+
+        # Node keys are prefixed so a chunk id can never collide with a synset id.
+        neighbours: dict[str, dict[str, float]] = {}
+        for r in records:
+            c, s, w = "c:" + r["chunk_id"], "s:" + r["synset_id"], float(r["weight"])
+            neighbours.setdefault(c, {})[s] = w
+            neighbours.setdefault(s, {})[c] = w
+
+        present = ["s:" + sid for sid in seeds if "s:" + sid in neighbours]
+        if not present:
+            return []
+        restart = {node: 1.0 / len(present) for node in present}
+
+        # Row-normalised transition weights; every node in the subgraph has at least one edge.
+        transitions = {
+            node: [(nbr, w / sum(edges.values())) for nbr, w in edges.items()]
+            for node, edges in neighbours.items()
+        }
+
+        score = dict(restart)
+        for _ in range(max_iter):
+            nxt = {node: (1 - damping) * p for node, p in restart.items()}
+            for node, p in score.items():
+                for nbr, prob in transitions[node]:
+                    nxt[nbr] = nxt.get(nbr, 0.0) + damping * p * prob
+            delta = sum(abs(nxt.get(n, 0.0) - score.get(n, 0.0)) for n in nxt.keys() | score.keys())
+            score = nxt
+            if delta < tol:
+                break
+
+        seed_set = set(present)
+        ranked = sorted(
+            ((node[2:], p) for node, p in score.items() if node.startswith("c:")),
+            key=lambda item: (-item[1], item[0]),
+        )[:top_k]
+        if not ranked:
+            return []
+
+        details, _, _ = self.driver.execute_query(
+            "MATCH (c:Chunk) WHERE c.id IN $ids RETURN c.id AS chunk_id, c.source AS source, c.text AS text",
+            ids=[cid for cid, _ in ranked],
+            database_=self.database,
+        )
+        by_id = {d["chunk_id"]: d.data() for d in details}
+        return [
+            {
+                **by_id[cid],
+                "score": p,
+                "matches": sum(1 for s in neighbours["c:" + cid] if s in seed_set),
+            }
+            for cid, p in ranked
+        ]
