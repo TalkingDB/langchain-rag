@@ -1,4 +1,5 @@
 
+import math
 import os
 from typing import Any
 
@@ -265,35 +266,9 @@ class GraphRepository:
         )
         return [record.data() for record in records]
 
-    def find_chunks_by_ppr(
-        self,
-        synset_ids: list[str],
-        top_k: int = 5,
-        damping: float = 0.85,
-        max_iter: int = 100,
-        tol: float = 1e-8,
-    ) -> list[dict[str, Any]]:
-        """
-        Rank chunks with Personalized PageRank seeded from the query's synsets.
-
-        A random walk over the bipartite Chunk-MENTIONS-Sense graph restarts at the
-        query's Sense nodes with probability (1 - damping). Chunks whose senses are
-        close to many query senses collect the most score. A sense that appears in
-        many chunks splits its score among them, so common senses count for less than
-        rare ones. Chunks that share senses with the matching chunks also get score,
-        even if they mention none of the query's synsets.
-
-        The walk runs on the local subgraph within three hops of the seeds:
-        seed sense -> chunk -> sense -> chunk. Returns the top_k chunks with their
-        PPR score and the number of query synsets each one mentions directly.
-        """
-
-        seeds = list(dict.fromkeys(synset_ids))
-        if not seeds:
-            return []
-
-        # Seed lookup still uses the range index behind sense_synset_id_unique.
-        subgraph_query = """
+    # Local subgraph around the query: seed sense -> chunk -> sense -> chunk, with the
+    # number of MENTIONS edges between each chunk and sense as the edge weight.
+    _LOCAL_SUBGRAPH_QUERY = """
         MATCH (seed:Sense) WHERE seed.synset_id IN $synset_ids
         MATCH (seed)<-[:MENTIONS]-(c1:Chunk)
         WITH collect(DISTINCT c1) AS hop1
@@ -307,8 +282,46 @@ class GraphRepository:
         MATCH (chunk)-[:MENTIONS]->(sense:Sense)
         RETURN chunk.id AS chunk_id, sense.synset_id AS synset_id, count(*) AS weight
         """
+
+    def find_chunks_by_leiden(
+        self,
+        synset_ids: list[str],
+        top_k: int = 5,
+        resolution: float = 1.0,
+        seed: int = 42,
+    ) -> list[dict[str, Any]]:
+        """
+        Rank chunks with Leiden community detection around the query's synsets.
+
+        1. Build the local subgraph within three hops of the query's Sense nodes
+           (seed sense -> chunk -> sense -> chunk) from the bipartite Chunk-MENTIONS-Sense
+           graph, weighted by mention counts.
+        2. Partition it into communities with the Leiden algorithm (RB-configuration /
+           modularity quality, `resolution`, fixed `seed` so results are reproducible).
+        3. Weight each query sense by rarity, idf = log(1 + N / df), where N is the number of
+           chunks in the subgraph and df the number of them mentioning the sense, so common
+           senses count for less than rare ones.
+        4. A community's relevance is the share of the query's idf weight that falls inside it.
+           A chunk's score is its community's relevance plus its own direct match (the share
+           of the query's idf weight it mentions). Chunks in the community where the query
+           concentrates rank high even if they mention none of the query's synsets.
+           Ties: stronger connection inside its community first, then chunk id.
+
+        Returns the top_k chunks as {chunk_id, source, text, score, matches}, where matches is
+        the number of query synsets the chunk mentions directly (same contract as before).
+        """
+        try:
+            import igraph as ig
+            import leidenalg
+        except ImportError as e:  # pragma: no cover - dependency guard
+            raise RuntimeError("Leiden retrieval needs: pip install leidenalg igraph") from e
+
+        seeds = list(dict.fromkeys(synset_ids))
+        if not seeds:
+            return []
+
         records, _, _ = self.driver.execute_query(
-            subgraph_query, synset_ids=seeds, database_=self.database
+            self._LOCAL_SUBGRAPH_QUERY, synset_ids=seeds, database_=self.database
         )
         if not records:
             return []
@@ -323,44 +336,63 @@ class GraphRepository:
         present = ["s:" + sid for sid in seeds if "s:" + sid in neighbours]
         if not present:
             return []
-        restart = {node: 1.0 / len(present) for node in present}
 
-        # Row-normalised transition weights; every node in the subgraph has at least one edge.
-        transitions = {
-            node: [(nbr, w / sum(edges.values())) for nbr, w in edges.items()]
-            for node, edges in neighbours.items()
-        }
+        # --- Leiden partition of the local bipartite graph
+        nodes = sorted(neighbours)
+        index = {node: i for i, node in enumerate(nodes)}
+        edges, weights = [], []
+        for node, nbrs in neighbours.items():
+            if node.startswith("c:"):
+                for nbr, w in nbrs.items():
+                    edges.append((index[node], index[nbr]))
+                    weights.append(w)
+        graph = ig.Graph(n=len(nodes), edges=edges, directed=False)
+        graph.es["weight"] = weights
+        partition = leidenalg.find_partition(
+            graph,
+            leidenalg.RBConfigurationVertexPartition,
+            weights="weight",
+            resolution_parameter=resolution,
+            seed=seed,
+            n_iterations=-1,  # iterate until the partition is stable
+        )
+        community = {node: partition.membership[index[node]] for node in nodes}
 
-        score = dict(restart)
-        for _ in range(max_iter):
-            nxt = {node: (1 - damping) * p for node, p in restart.items()}
-            for node, p in score.items():
-                for nbr, prob in transitions[node]:
-                    nxt[nbr] = nxt.get(nbr, 0.0) + damping * p * prob
-            delta = sum(abs(nxt.get(n, 0.0) - score.get(n, 0.0)) for n in nxt.keys() | score.keys())
-            score = nxt
-            if delta < tol:
-                break
+        # --- query sense weights (rarer senses weigh more)
+        chunks = [node for node in nodes if node.startswith("c:")]
+        n_chunks = len(chunks)
+        idf = {s: math.log(1 + n_chunks / len(neighbours[s])) for s in present}
+        total = sum(idf.values()) or 1.0
 
-        seed_set = set(present)
-        ranked = sorted(
-            ((node[2:], p) for node, p in score.items() if node.startswith("c:")),
-            key=lambda item: (-item[1], item[0]),
-        )[:top_k]
+        relevance: dict[int, float] = {}
+        for s in present:
+            relevance[community[s]] = relevance.get(community[s], 0.0) + idf[s] / total
+
+        def chunk_key(node: str) -> tuple:
+            comm = community[node]
+            direct = sum(idf[s] for s in present if s in neighbours[node]) / total
+            inside = sum(w for nbr, w in neighbours[node].items() if community[nbr] == comm)
+            return (relevance.get(comm, 0.0) + direct, inside)
+
+        scored = {node: chunk_key(node) for node in chunks}
+        ranked = sorted(chunks, key=lambda n: (-scored[n][0], -scored[n][1], n))[:top_k]
+        ranked = [n for n in ranked if scored[n][0] > 0]
         if not ranked:
             return []
 
+        ids = [node[2:] for node in ranked]
         details, _, _ = self.driver.execute_query(
             "MATCH (c:Chunk) WHERE c.id IN $ids RETURN c.id AS chunk_id, c.source AS source, c.text AS text",
-            ids=[cid for cid, _ in ranked],
+            ids=ids,
             database_=self.database,
         )
         by_id = {d["chunk_id"]: d.data() for d in details}
+        seed_set = set(present)
         return [
             {
-                **by_id[cid],
-                "score": p,
-                "matches": sum(1 for s in neighbours["c:" + cid] if s in seed_set),
+                **by_id[node[2:]],
+                "score": round(scored[node][0], 6),
+                "matches": sum(1 for s in neighbours[node] if s in seed_set),
             }
-            for cid, p in ranked
+            for node in ranked
         ]

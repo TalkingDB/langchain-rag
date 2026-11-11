@@ -1,4 +1,4 @@
-"""Benchmark symbolic retrieval: exact synset match (range index) vs Personalized PageRank.
+"""Benchmark retrieval: exact synset match, Leiden community ranking, and vector (Chroma) search.
 
 For a random sample of testset questions, every method gets the same WSD synsets for the
 question, then retrieves chunks from Neo4j, answers with the pipeline's prompt and model,
@@ -11,7 +11,8 @@ and is graded on:
   chunks/chars how much context was sent to the LLM
 
 Usage (from the langchain-rag directory):
-    python benchmarks/benchmark_retrieval.py --csv ../testset_stripped.csv -n 20 --seed 42
+    python benchmarks/benchmark_retrieval.py -n 20 --seed 42          # random sample
+    python benchmarks/benchmark_retrieval.py -n 20 --first            # first 20 rows of the sheet
 """
 import argparse
 import ast
@@ -30,13 +31,14 @@ from dotenv import load_dotenv
 from langchain.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 
-load_dotenv()
+load_dotenv(override=True)  # the repo's .env must beat a stale OS OPENAI_API_KEY
 
 from neo4j_graphdb import GraphRepository  # noqa: E402
 from query_data import PROMPT_TEMPLATE  # noqa: E402
 from symbolic_link_data import link_entities, to_senses  # noqa: E402
 
 TOP_K = 5
+VECTOR_MIN_RELEVANCE = 0.7  # same cutoff as api/services/vector_service.py
 GOLD_OVERLAP = 0.5  # share of a chunk's word 4-grams that must fall inside the gold context
 
 JUDGE_PROMPT = """You are grading a question-answering system.
@@ -68,55 +70,95 @@ def parse_contexts(raw: str) -> list[str]:
         return ast.literal_eval(raw)
 
 
-def retrieve(graph: GraphRepository, method: str, synset_ids: list[str]) -> list[dict]:
+def retrieve_vector(vectordb, question: str) -> list[dict]:
+    """Top-k Chroma similarity search, exactly like the vector pipeline: if the best chunk's
+    relevance is below the cutoff, nothing is retrieved (the pipeline then answers nothing)."""
+    results = vectordb.similarity_search_with_relevance_scores(question, k=TOP_K)
+    if not results or results[0][1] < VECTOR_MIN_RELEVANCE:
+        return []
+    return [
+        {
+            "chunk_id": f"{os.path.splitext(os.path.basename(doc.metadata.get('source', '')))[0]}"
+                        f"@{doc.metadata.get('start_index', i)}",
+            "source": doc.metadata.get("source"),
+            "text": doc.page_content,
+            "score": score,
+        }
+        for i, (doc, score) in enumerate(results)
+    ]
+
+
+def retrieve(graph: GraphRepository, method: str, synset_ids: list[str],
+             question: str = "", vectordb=None) -> list[dict]:
+    if method == "vector_top5":
+        return retrieve_vector(vectordb, question)
     if not synset_ids:
         return []
     if method == "exact_all":
         return graph.find_chunks_by_synset_ids(synset_ids)
     if method == "exact_top5":
         return graph.find_chunks_by_synset_ids(synset_ids)[:TOP_K]
-    if method == "ppr_top5":
-        return graph.find_chunks_by_ppr(synset_ids, top_k=TOP_K)
+    if method == "leiden_top5":
+        return graph.find_chunks_by_leiden(synset_ids, top_k=TOP_K)
     raise ValueError(method)
 
 
-METHODS = ["exact_all", "exact_top5", "ppr_top5"]
+METHODS = ["exact_all", "exact_top5", "leiden_top5", "vector_top5"]
+SYMBOLIC_METHODS = {"exact_all", "exact_top5", "leiden_top5"}
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--csv", default="../testset_stripped.csv")
+    parser.add_argument("--csv", default="data/eval/testset_stripped.csv")
     parser.add_argument("-n", type=int, default=20)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--first", action="store_true",
+                        help="use the first N rows of the sheet instead of a random sample")
+    parser.add_argument("--methods", nargs="+", default=METHODS, choices=METHODS)
     parser.add_argument("--out", default="benchmarks/results.json")
     args = parser.parse_args()
+    methods = args.methods
 
-    with open(args.csv, encoding="utf-8") as f:
+    with open(args.csv, encoding="utf-8-sig") as f:
         rows = list(csv.DictReader(f))
-    sample = random.Random(args.seed).sample(rows, args.n)
+    indexed = list(enumerate(rows, 1))
+    sample = indexed[: args.n] if args.first else random.Random(args.seed).sample(indexed, args.n)
 
     llm = ChatOpenAI(model="gpt-4.1-mini", temperature=0)
     prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
     graph = GraphRepository()
+    needs_wsd = any(m in SYMBOLIC_METHODS for m in methods)
+    vectordb = None
+    if "vector_top5" in methods:
+        from langchain_community.vectorstores import Chroma
+        from langchain_openai import OpenAIEmbeddings
+
+        from query_data import CHROMA_PATH
+
+        vectordb = Chroma(persist_directory=CHROMA_PATH, embedding_function=OpenAIEmbeddings())
     results = []
     try:
-        for qi, row in enumerate(sample, 1):
+        for qi, (row_no, row) in enumerate(sample, 1):
             question, reference = row["user_input"], row["reference"]
             gold_grams = set().union(*(ngrams(words(c)) for c in parse_contexts(row["reference_contexts"])))
 
-            senses = to_senses(link_entities(question))
+            t = time.perf_counter()
+            senses = to_senses(link_entities(question)) if needs_wsd else []
+            wsd_ms = (time.perf_counter() - t) * 1000 if needs_wsd else 0.0
             synset_ids = list(dict.fromkeys(s["synset_id"] for s in senses))
             entry = {
+                "row": row_no,
                 "question": question,
                 "reference": reference,
                 "source": row["source"],
                 "synsets": [(s["surface"], s["synset_id"]) for s in senses],
+                "wsd_ms": round(wsd_ms, 1),
                 "methods": {},
             }
 
-            for method in METHODS:
+            for method in methods:
                 t = time.perf_counter()
-                chunks = retrieve(graph, method, synset_ids)
+                chunks = retrieve(graph, method, synset_ids, question, vectordb)
                 retrieval_ms = (time.perf_counter() - t) * 1000
 
                 ranks = [i for i, c in enumerate(chunks, 1) if from_gold(c["text"], gold_grams)]
@@ -124,8 +166,11 @@ def main():
                 ans_norm = " ".join(words(reference))
                 ans_in_ctx = bool(ans_norm) and ans_norm in " ".join(words(context))
 
+                answer_ms = 0.0
                 if chunks:
+                    t = time.perf_counter()
                     answer = llm.invoke(prompt_template.format(context=context, question=question)).content
+                    answer_ms = (time.perf_counter() - t) * 1000
                     verdict = llm.invoke(JUDGE_PROMPT.format(question=question, reference=reference, answer=answer)).content
                     correct = verdict.strip().upper().startswith("CORRECT")
                 else:
@@ -133,6 +178,9 @@ def main():
 
                 entry["methods"][method] = {
                     "retrieval_ms": round(retrieval_ms, 1),
+                    "answer_ms": round(answer_ms, 1),
+                    "pipeline_ms": round((wsd_ms if method in SYMBOLIC_METHODS else 0.0)
+                                         + retrieval_ms + answer_ms, 1),
                     "n_chunks": len(chunks),
                     "context_chars": len(context),
                     "hit": bool(ranks),
@@ -147,7 +195,7 @@ def main():
             m = entry["methods"]
             print(
                 f"[{qi:2}/{args.n}] {question[:60]:60} | "
-                + " | ".join(f"{k}: hit={int(m[k]['hit'])} ok={int(m[k]['correct'])} n={m[k]['n_chunks']}" for k in METHODS),
+                + " | ".join(f"{k}: hit={int(m[k]['hit'])} ok={int(m[k]['correct'])} n={m[k]['n_chunks']}" for k in methods),
                 flush=True,
             )
             results.append(entry)
@@ -155,7 +203,7 @@ def main():
         graph.close()
 
     summary = {}
-    for method in METHODS:
+    for method in methods:
         ms = [r["methods"][method] for r in results]
         summary[method] = {
             "hit_rate": statistics.mean(m["hit"] for m in ms),
@@ -165,6 +213,9 @@ def main():
             "avg_chunks": statistics.mean(m["n_chunks"] for m in ms),
             "avg_context_chars": statistics.mean(m["context_chars"] for m in ms),
             "median_retrieval_ms": statistics.median(m["retrieval_ms"] for m in ms),
+            "mean_retrieval_ms": statistics.mean(m["retrieval_ms"] for m in ms),
+            "max_retrieval_ms": max(m["retrieval_ms"] for m in ms),
+            "median_pipeline_ms": statistics.median(m["pipeline_ms"] for m in ms),
         }
 
     print("\nmethod       hit   MRR   ans_in_ctx  accuracy  avg_chunks  avg_ctx_chars  med_retr_ms")

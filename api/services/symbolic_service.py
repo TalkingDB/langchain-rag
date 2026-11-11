@@ -77,7 +77,7 @@ def query(query_text: str, top_k: int | None = None, return_contexts: bool = Fal
     """Answer a question from the Neo4j graph.
 
     Makes the same calls as query_data_by_wsd.main(): link the query's entities to synsets
-    with the WSD service, rank chunks with Personalized PageRank seeded from those synsets, then answer
+    with the WSD service, rank chunks with Leiden communities around those synsets, then answer
     with the shared prompt and model. main() itself can't be called because it parses
     sys.argv and prints its answer instead of returning it.
     """
@@ -100,11 +100,10 @@ def query(query_text: str, top_k: int | None = None, return_contexts: bool = Fal
     if synset_ids:
         graph = GraphRepository()
         try:
-            results = graph.find_chunks_by_ppr(synset_ids)
+            # top_k defaults to 5 chunks, as before; the request's top_k is passed through.
+            results = graph.find_chunks_by_leiden(synset_ids, top_k=top_k or 5)
         finally:
             graph.close()
-    if top_k:  # results are ranked: most matched synsets first (ties by chunk id)
-        results = results[:top_k]
     if len(results) == 0:
         out = {"found": False, "answer": None, "sources": [], "synsets": synsets}
         if return_contexts:

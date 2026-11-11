@@ -21,12 +21,12 @@ def main():
     print(f"Query synsets: {[(s['surface'], s['synset_id']) for s in senses]}")
     synset_ids = list(dict.fromkeys(s["synset_id"] for s in senses))
 
-    # Rank chunks with Personalized PageRank seeded from those synsets and keep the top few.
+    # Rank chunks with Leiden communities around those synsets and keep the top few.
     results = []
     if synset_ids:
         graph = GraphRepository()
         try:
-            results = graph.find_chunks_by_ppr(synset_ids)
+            results = graph.find_chunks_by_leiden(synset_ids)
         finally:
             graph.close()
     if len(results) == 0:

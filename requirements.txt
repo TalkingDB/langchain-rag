@@ -19,3 +19,5 @@ fastapi>=0.111
 uvicorn[standard]>=0.30
 
 # install markdown depenendies with: `pip install "unstructured[md]"` after install the requirements file. Leave this line commented out. 
+leidenalg>=0.10 # Leiden community detection for symbolic retrieval
+igraph>=0.11 # graph backend for leidenalg
