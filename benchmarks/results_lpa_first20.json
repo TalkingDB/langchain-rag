@@ -1,0 +1,936 @@
+{
+  "args": {
+    "csv": "data/eval/testset_stripped.csv",
+    "n": 20,
+    "seed": 42,
+    "first": true,
+    "methods": [
+      "lpa_top5"
+    ],
+    "out": "benchmarks/results_lpa_first20.json"
+  },
+  "summary": {
+    "lpa_top5": {
+      "hit_rate": 0.85,
+      "mrr": 0.75,
+      "ans_in_ctx": 0.65,
+      "accuracy": 0.7,
+      "avg_chunks": 5,
+      "avg_context_chars": 1271.15,
+      "median_retrieval_ms": 1457.2,
+      "mean_retrieval_ms": 1559.335,
+      "max_retrieval_ms": 2797.4,
+      "median_pipeline_ms": 2931.75
+    }
+  },
+  "results": [
+    {
+      "row": 1,
+      "question": "What is Steven M. Christey's role?",
+      "reference": "Principal Information Security Engineer and CVE Editor",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "Steven",
+          "w1774501"
+        ],
+        [
+          "M",
+          "n13750844"
+        ],
+        [
+          "role",
+          "n05149325"
+        ]
+      ],
+      "wsd_ms": 399.3,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 1342.0,
+          "answer_ms": 1414.5,
+          "pipeline_ms": 3155.8,
+          "n_chunks": 5,
+          "context_chars": 1113,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "Steven M. Christey's role is Principal Information Security Engineer and CVE Editor at Mitre.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-17",
+            "18_thoreau_civil_disobedience-116",
+            "18_thoreau_civil_disobedience-240",
+            "18_thoreau_civil_disobedience-208",
+            "18_thoreau_civil_disobedience-128"
+          ]
+        }
+      }
+    },
+    {
+      "row": 2,
+      "question": "What is accessible for AI SBOM Compliance guidance?",
+      "reference": "Legal expertise",
+      "source": "16_openchain_ai_sbom_compliance_guide_v1.docx",
+      "synsets": [
+        [
+          "accessible",
+          "a00019131"
+        ],
+        [
+          "AI",
+          "n06133203"
+        ],
+        [
+          "SBOM",
+          "w45074771"
+        ],
+        [
+          "Compliance",
+          "n01203676"
+        ],
+        [
+          "guidance",
+          "n06650701"
+        ]
+      ],
+      "wsd_ms": 292.1,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 2797.4,
+          "answer_ms": 935.2,
+          "pipeline_ms": 4024.8,
+          "n_chunks": 5,
+          "context_chars": 1394,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "Legal expertise pertaining to AI SBOM Compliance is accessible to those who may need such guidance.",
+          "chunk_ids": [
+            "16_openchain_ai_sbom_compliance_guide_v1-68",
+            "16_openchain_ai_sbom_compliance_guide_v1-6",
+            "16_openchain_ai_sbom_compliance_guide_v1-13",
+            "16_openchain_ai_sbom_compliance_guide_v1-65",
+            "16_openchain_ai_sbom_compliance_guide_v1-70"
+          ]
+        }
+      }
+    },
+    {
+      "row": 3,
+      "question": "What is the name of Katrina's father?",
+      "reference": "A substantial Dutch farmer",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "name",
+          "n14438788"
+        ],
+        [
+          "father",
+          "n10080869"
+        ]
+      ],
+      "wsd_ms": 286.0,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 1678.4,
+          "answer_ms": 745.7,
+          "pipeline_ms": 2710.1,
+          "n_chunks": 5,
+          "context_chars": 1408,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The name of Katrina's father is Hans Van Ripper.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-146",
+            "17_owasp_top10_2004-48",
+            "19_irving_legend_of_sleepy_hollow-289",
+            "19_irving_legend_of_sleepy_hollow-319",
+            "17_owasp_top10_2004-115"
+          ]
+        }
+      }
+    },
+    {
+      "row": 4,
+      "question": "What format must be used for Project Gutenberg works?",
+      "reference": "Plain Vanilla ASCII",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "format",
+          "n06636806"
+        ],
+        [
+          "used",
+          "v01158872"
+        ],
+        [
+          "Project Gutenberg",
+          "w23301"
+        ],
+        [
+          "works",
+          "v02536557"
+        ]
+      ],
+      "wsd_ms": 412.7,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 2754.2,
+          "answer_ms": 949.5,
+          "pipeline_ms": 4116.3,
+          "n_chunks": 5,
+          "context_chars": 1329,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "Project Gutenberg works must be distributed in the format \"Plain Vanilla ASCII\" or the format used in the official version posted on the official Project Gutenberg website (www.gutenberg.org).",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-292",
+            "17_owasp_top10_2004-63",
+            "17_owasp_top10_2004-121",
+            "17_owasp_top10_2004-122",
+            "18_thoreau_civil_disobedience-258"
+          ]
+        }
+      }
+    },
+    {
+      "row": 5,
+      "question": "Who is the Executive Director of CERIAS?",
+      "reference": "Eugene H. Spafford",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "Executive Director",
+          "n10069645"
+        ],
+        [
+          "CERIAS",
+          "w28321566"
+        ]
+      ],
+      "wsd_ms": 284.4,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 2303.7,
+          "answer_ms": 1022.8,
+          "pipeline_ms": 3611.0,
+          "n_chunks": 5,
+          "context_chars": 1400,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The Executive Director of CERIAS is Eugene H. Spafford.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-12",
+            "17_owasp_top10_2004-39",
+            "17_owasp_top10_2004-48",
+            "19_irving_legend_of_sleepy_hollow-289",
+            "19_irving_legend_of_sleepy_hollow-319"
+          ]
+        }
+      }
+    },
+    {
+      "row": 6,
+      "question": "What license is this guide under?",
+      "reference": "Creative Commons Attribution License 4.0",
+      "source": "16_openchain_ai_sbom_compliance_guide_v1.docx",
+      "synsets": [
+        [
+          "license",
+          "n06549661"
+        ],
+        [
+          "guide",
+          "n10741821"
+        ]
+      ],
+      "wsd_ms": 241.8,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 2667.6,
+          "answer_ms": 875.6,
+          "pipeline_ms": 3785.0,
+          "n_chunks": 5,
+          "context_chars": 1161,
+          "hit": true,
+          "first_gold_rank": 2,
+          "rr": 0.5,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "This guide is licensed under the Creative Commons Attribution License 4.0 (CC-BY-4.0).",
+          "chunk_ids": [
+            "16_openchain_ai_sbom_compliance_guide_v1-6",
+            "16_openchain_ai_sbom_compliance_guide_v1-8",
+            "16_openchain_ai_sbom_compliance_guide_v1-10",
+            "16_openchain_ai_sbom_compliance_guide_v1-12",
+            "16_openchain_ai_sbom_compliance_guide_v1-11"
+          ]
+        }
+      }
+    },
+    {
+      "row": 7,
+      "question": "Who is the Director of Research & Development at @stake, Inc.?",
+      "reference": "Chris Wysopal",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "Director",
+          "n10014939"
+        ],
+        [
+          "Research & Development",
+          "w254769"
+        ],
+        [
+          "@stake",
+          "w1915982"
+        ],
+        [
+          "Inc",
+          "n08403907"
+        ]
+      ],
+      "wsd_ms": 727.3,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 2387.9,
+          "answer_ms": 837.0,
+          "pipeline_ms": 3952.2,
+          "n_chunks": 5,
+          "context_chars": 756,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The Director of Research & Development at @stake, Inc. is Chris Wysopal.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-35",
+            "17_owasp_top10_2004-47",
+            "17_owasp_top10_2004-1",
+            "17_owasp_top10_2004-41",
+            "17_owasp_top10_2004-45"
+          ]
+        }
+      }
+    },
+    {
+      "row": 8,
+      "question": "What is the version of the Compliance Management Guide?",
+      "reference": "Version 1.0",
+      "source": "16_openchain_ai_sbom_compliance_guide_v1.docx",
+      "synsets": [
+        [
+          "version",
+          "n07173585"
+        ],
+        [
+          "Compliance",
+          "n01203676"
+        ],
+        [
+          "Management",
+          "n01133281"
+        ],
+        [
+          "Guide",
+          "n10741821"
+        ]
+      ],
+      "wsd_ms": 261.0,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 2526.6,
+          "answer_ms": 1021.1,
+          "pipeline_ms": 3808.7,
+          "n_chunks": 5,
+          "context_chars": 1146,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The version of the Compliance Management Guide is not specified in the provided context.",
+          "chunk_ids": [
+            "16_openchain_ai_sbom_compliance_guide_v1-6",
+            "16_openchain_ai_sbom_compliance_guide_v1-88",
+            "16_openchain_ai_sbom_compliance_guide_v1-8",
+            "16_openchain_ai_sbom_compliance_guide_v1-10",
+            "16_openchain_ai_sbom_compliance_guide_v1-12"
+          ]
+        }
+      }
+    },
+    {
+      "row": 9,
+      "question": "What was Ichabod's companion carrying?",
+      "reference": "His head on the pommel of his saddle",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "companion",
+          "n03079616"
+        ],
+        [
+          "carrying",
+          "v01449974"
+        ]
+      ],
+      "wsd_ms": 261.1,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 1602.4,
+          "answer_ms": 1119.4,
+          "pipeline_ms": 2982.8,
+          "n_chunks": 5,
+          "context_chars": 1433,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "Ichabod's companion was carrying his suit.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-335",
+            "17_owasp_top10_2004-108",
+            "17_owasp_top10_2004-161",
+            "19_irving_legend_of_sleepy_hollow-150",
+            "19_irving_legend_of_sleepy_hollow-66"
+          ]
+        }
+      }
+    },
+    {
+      "row": 10,
+      "question": "What must you do to use Project Gutenberg works?",
+      "reference": "Comply with all the terms of the license",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "use",
+          "v01158872"
+        ],
+        [
+          "Project Gutenberg",
+          "w23301"
+        ],
+        [
+          "works",
+          "v02536557"
+        ]
+      ],
+      "wsd_ms": 364.4,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 1792.4,
+          "answer_ms": 1848.0,
+          "pipeline_ms": 4004.8,
+          "n_chunks": 5,
+          "context_chars": 1355,
+          "hit": true,
+          "first_gold_rank": 2,
+          "rr": 0.5,
+          "ans_in_ctx": false,
+          "correct": true,
+          "answer": "To use Project Gutenberg works, you must comply with all the terms of the Project Gutenberg License included with the eBook or available online at www.gutenberg.org. You may not charge for the eBooks or use the \"Project Gutenberg\" trademark without specific permission. If you distribute copies in a format other than the official \"Plain Vanilla ASCII\" or the format used on the official Project Gutenberg website, you must do so at no additional cost, fee, or expense. Additionally, if you are outside the United States, you need to check the laws of your country before using the eBook.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-258",
+            "18_thoreau_civil_disobedience-262",
+            "18_thoreau_civil_disobedience-267",
+            "18_thoreau_civil_disobedience-282",
+            "18_thoreau_civil_disobedience-292"
+          ]
+        }
+      }
+    },
+    {
+      "row": 11,
+      "question": "What does the WAS Thesaurus define?",
+      "reference": "A standard language for discussing web application security",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "Thesaurus",
+          "n06421016"
+        ],
+        [
+          "define",
+          "n06744396"
+        ]
+      ],
+      "wsd_ms": 226.9,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 1572.4,
+          "answer_ms": 1128.7,
+          "pipeline_ms": 2928.0,
+          "n_chunks": 5,
+          "context_chars": 1158,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The WAS Thesaurus defines a standard language for discussing web application security vulnerabilities.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-93",
+            "17_owasp_top10_2004-81",
+            "17_owasp_top10_2004-99",
+            "17_owasp_top10_2004-94",
+            "17_owasp_top10_2004-82"
+          ]
+        }
+      }
+    },
+    {
+      "row": 12,
+      "question": "Where can IEC Electropedia be accessed?",
+      "reference": "http://www.electropedia.org/",
+      "source": "16_openchain_ai_sbom_compliance_guide_v1.docx",
+      "synsets": [
+        [
+          "Where",
+          "w31639681"
+        ],
+        [
+          "IEC",
+          "w15144"
+        ],
+        [
+          "Electropedia",
+          "w43104649"
+        ],
+        [
+          "accessed",
+          "v02248808"
+        ]
+      ],
+      "wsd_ms": 273.1,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 877.8,
+          "answer_ms": 892.3,
+          "pipeline_ms": 2043.3,
+          "n_chunks": 5,
+          "context_chars": 1319,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "IEC Electropedia can be accessed at http://www.electropedia.org/",
+          "chunk_ids": [
+            "16_openchain_ai_sbom_compliance_guide_v1-33",
+            "17_owasp_top10_2004-179",
+            "17_owasp_top10_2004-162",
+            "17_owasp_top10_2004-180",
+            "17_owasp_top10_2004-110"
+          ]
+        }
+      }
+    },
+    {
+      "row": 13,
+      "question": "Who is the object of Brom Bones' gallantries?",
+      "reference": "Katrina",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "object",
+          "n00002684"
+        ],
+        [
+          "Brom",
+          "w1063354"
+        ],
+        [
+          "Bones'",
+          "w4853654"
+        ],
+        [
+          "gallantries",
+          "n04857738"
+        ]
+      ],
+      "wsd_ms": 266.7,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 819.7,
+          "answer_ms": 792.8,
+          "pipeline_ms": 1879.2,
+          "n_chunks": 5,
+          "context_chars": 1092,
+          "hit": true,
+          "first_gold_rank": 2,
+          "rr": 0.5,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The object of Brom Bones' gallantries is the blooming Katrina.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-159",
+            "19_irving_legend_of_sleepy_hollow-138",
+            "19_irving_legend_of_sleepy_hollow-137",
+            "19_irving_legend_of_sleepy_hollow-288",
+            "19_irving_legend_of_sleepy_hollow-161"
+          ]
+        }
+      }
+    },
+    {
+      "row": 14,
+      "question": "What new category was added to the WAS TC Thesaurus?",
+      "reference": "A9 Denial of Service",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "new",
+          "a01640850"
+        ],
+        [
+          "category",
+          "n07997703"
+        ],
+        [
+          "added",
+          "v00182406"
+        ],
+        [
+          "TC",
+          "n05452516"
+        ],
+        [
+          "Thesaurus",
+          "n06421016"
+        ]
+      ],
+      "wsd_ms": 391.2,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 792.3,
+          "answer_ms": 854.5,
+          "pipeline_ms": 2038.0,
+          "n_chunks": 5,
+          "context_chars": 1346,
+          "hit": true,
+          "first_gold_rank": 2,
+          "rr": 0.5,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The new category added to the WAS TC Thesaurus is **Input Validation**, corresponding to the \"Unvalidated Input\" category in the New Top Ten 2004.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-93",
+            "17_owasp_top10_2004-99",
+            "17_owasp_top10_2004-97",
+            "17_owasp_top10_2004-81",
+            "17_owasp_top10_2004-94"
+          ]
+        }
+      }
+    },
+    {
+      "row": 15,
+      "question": "What did Ichabod hear as he approached the tree?",
+      "reference": "A groan",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "Ichabod",
+          "w3472254"
+        ],
+        [
+          "hear",
+          "v02169702"
+        ],
+        [
+          "approached",
+          "v02053941"
+        ],
+        [
+          "tree",
+          "n13104059"
+        ]
+      ],
+      "wsd_ms": 486.7,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 908.2,
+          "answer_ms": 1052.0,
+          "pipeline_ms": 2446.9,
+          "n_chunks": 5,
+          "context_chars": 1295,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "As Ichabod approached the tree, he began to whistle and thought his whistle was answered; however, it was actually just a blast of wind sweeping sharply through the dry branches.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-272",
+            "19_irving_legend_of_sleepy_hollow-268",
+            "19_irving_legend_of_sleepy_hollow-239",
+            "19_irving_legend_of_sleepy_hollow-238",
+            "19_irving_legend_of_sleepy_hollow-305"
+          ]
+        }
+      }
+    },
+    {
+      "row": 16,
+      "question": "What is a common method used by attackers for input manipulation?",
+      "reference": "Parameter fuzzing",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "common",
+          "a00485711"
+        ],
+        [
+          "method",
+          "n05660268"
+        ],
+        [
+          "used",
+          "v01158872"
+        ],
+        [
+          "attackers",
+          "n09821253"
+        ],
+        [
+          "input",
+          "n06765044"
+        ],
+        [
+          "manipulation",
+          "n00158185"
+        ]
+      ],
+      "wsd_ms": 351.3,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 850.9,
+          "answer_ms": 1095.3,
+          "pipeline_ms": 2297.5,
+          "n_chunks": 5,
+          "context_chars": 1471,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "A common method used by attackers for input manipulation is encoding input in multiple formats to obfuscate attacks, which can slip past filters if the input is not properly decoded and simplified (canonicalized) before validation.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-70",
+            "17_owasp_top10_2004-121",
+            "17_owasp_top10_2004-120",
+            "17_owasp_top10_2004-134",
+            "18_thoreau_civil_disobedience-296"
+          ]
+        }
+      }
+    },
+    {
+      "row": 17,
+      "question": "Who spoke before the Information Technology Association of America?",
+      "reference": "J. Howard Beales, III",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "spoke",
+          "v00963570"
+        ],
+        [
+          "Information Technology",
+          "n06134510"
+        ],
+        [
+          "Association",
+          "n08049401"
+        ],
+        [
+          "America",
+          "n09044862"
+        ]
+      ],
+      "wsd_ms": 639.6,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 881.5,
+          "answer_ms": 1414.4,
+          "pipeline_ms": 2935.5,
+          "n_chunks": 5,
+          "context_chars": 1138,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "J. Howard Beales, III, Director of the Federal Trade Commission's Bureau of Consumer Protection, spoke before the Information Technology Association of America.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-7",
+            "18_thoreau_civil_disobedience-223",
+            "18_thoreau_civil_disobedience-225",
+            "18_thoreau_civil_disobedience-21",
+            "18_thoreau_civil_disobedience-119"
+          ]
+        }
+      }
+    },
+    {
+      "row": 18,
+      "question": "What governs AI SBOM compliance?",
+      "reference": "A written policy",
+      "source": "16_openchain_ai_sbom_compliance_guide_v1.docx",
+      "synsets": [
+        [
+          "governs",
+          "v02511551"
+        ],
+        [
+          "AI",
+          "n06133203"
+        ],
+        [
+          "SBOM",
+          "w45074771"
+        ],
+        [
+          "compliance",
+          "n01203676"
+        ]
+      ],
+      "wsd_ms": 243.4,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 862.7,
+          "answer_ms": 1110.4,
+          "pipeline_ms": 2216.5,
+          "n_chunks": 5,
+          "context_chars": 1412,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "AI SBOM compliance is governed by a written policy that is internally communicated and informed by business strategy, legal requirements in the relevant jurisdictions, and the level of risk appropriate for the use case.",
+          "chunk_ids": [
+            "16_openchain_ai_sbom_compliance_guide_v1-39",
+            "16_openchain_ai_sbom_compliance_guide_v1-6",
+            "16_openchain_ai_sbom_compliance_guide_v1-13",
+            "16_openchain_ai_sbom_compliance_guide_v1-65",
+            "16_openchain_ai_sbom_compliance_guide_v1-70"
+          ]
+        }
+      }
+    },
+    {
+      "row": 19,
+      "question": "What type of hat is compared to Mercury's cap?",
+      "reference": "Round-crowned fragment of a hat",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "type",
+          "n08111419"
+        ],
+        [
+          "hat",
+          "n03497657"
+        ],
+        [
+          "compared",
+          "v00652900"
+        ],
+        [
+          "cap",
+          "n02954340"
+        ]
+      ],
+      "wsd_ms": 375.6,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 929.6,
+          "answer_ms": 1087.5,
+          "pipeline_ms": 2392.6,
+          "n_chunks": 5,
+          "context_chars": 1245,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The type of hat compared to Mercury's cap is described as a \"round-crowned fragment of a hat.\"",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-169",
+            "19_irving_legend_of_sleepy_hollow-322",
+            "19_irving_legend_of_sleepy_hollow-203",
+            "19_irving_legend_of_sleepy_hollow-134",
+            "17_owasp_top10_2004-162"
+          ]
+        }
+      }
+    },
+    {
+      "row": 20,
+      "question": "What does the Global AI Governance Initiative address?",
+      "reference": "Ethical considerations, risk management, and transparency",
+      "source": "16_openchain_ai_sbom_compliance_guide_v1.docx",
+      "synsets": [
+        [
+          "Global",
+          "a01568684"
+        ],
+        [
+          "AI Governance",
+          "w63451675"
+        ],
+        [
+          "Initiative",
+          "n04836074"
+        ],
+        [
+          "address",
+          "n06356515"
+        ]
+      ],
+      "wsd_ms": 280.8,
+      "methods": {
+        "lpa_top5": {
+          "retrieval_ms": 839.0,
+          "answer_ms": 990.4,
+          "pipeline_ms": 2110.1,
+          "n_chunks": 5,
+          "context_chars": 1452,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The Global AI Governance Initiative addresses ethical considerations, risk management, and transparency in the development, deployment, and management of AI systems, ensuring compliance with emerging AI laws and regulations.",
+          "chunk_ids": [
+            "16_openchain_ai_sbom_compliance_guide_v1-79",
+            "16_openchain_ai_sbom_compliance_guide_v1-78",
+            "17_owasp_top10_2004-171",
+            "17_owasp_top10_2004-92",
+            "18_thoreau_civil_disobedience-342"
+          ]
+        }
+      }
+    }
+  ]
+}

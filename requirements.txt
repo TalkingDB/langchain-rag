@@ -19,3 +19,4 @@ fastapi>=0.111
 uvicorn[standard]>=0.30
 
 # install markdown depenendies with: `pip install "unstructured[md]"` after install the requirements file. Leave this line commented out. 
+igraph>=0.11 # graph library: label propagation for symbolic retrieval

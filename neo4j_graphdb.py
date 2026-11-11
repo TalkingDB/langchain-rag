@@ -1,5 +1,7 @@
 
+import math
 import os
+import random
 from typing import Any
 
 from neo4j import Driver, GraphDatabase
@@ -264,3 +266,128 @@ class GraphRepository:
             query, synset_ids=synset_ids, database_=self.database
         )
         return [record.data() for record in records]
+
+    # Local subgraph around the query: seed sense -> chunk -> sense -> chunk, with the
+    # number of MENTIONS edges between each chunk and sense as the edge weight.
+    _LOCAL_SUBGRAPH_QUERY = """
+        MATCH (seed:Sense) WHERE seed.synset_id IN $synset_ids
+        MATCH (seed)<-[:MENTIONS]-(c1:Chunk)
+        WITH collect(DISTINCT c1) AS hop1
+        CALL (hop1) {
+            UNWIND hop1 AS c1
+            MATCH (c1)-[:MENTIONS]->(:Sense)<-[:MENTIONS]-(c2:Chunk)
+            RETURN collect(DISTINCT c2) AS hop3
+        }
+        UNWIND hop1 + hop3 AS chunk
+        WITH DISTINCT chunk
+        MATCH (chunk)-[:MENTIONS]->(sense:Sense)
+        RETURN chunk.id AS chunk_id, sense.synset_id AS synset_id, count(*) AS weight
+        """
+
+    def find_chunks_by_label_propagation(
+        self,
+        synset_ids: list[str],
+        top_k: int = 5,
+        runs: int = 5,
+        seed: int = 42,
+    ) -> list[dict[str, Any]]:
+        """
+        Rank chunks with the Label Propagation Algorithm (Raghavan, Albert & Kumara, 2007)
+        around the query's synsets.
+
+        1. Build the local subgraph within three hops of the query's Sense nodes
+           (seed sense -> chunk -> sense -> chunk) from the bipartite Chunk-MENTIONS-Sense
+           graph, weighted by mention counts.
+        2. Detect communities with label propagation: every node starts with its own label
+           and repeatedly adopts the label with the largest total edge weight among its
+           neighbours (random update order, random tie-breaks) until labels stop changing.
+        3. LPA is randomised and single runs often differ, so it runs `runs` times with
+           seeds seed, seed+1, ... and chunk scores are averaged over the runs
+           (deterministic for a given seed).
+        4. In each run, query senses are weighted by rarity, idf = log(1 + N / df) over the
+           N chunks of the subgraph. A community's relevance is the share of the query's
+           idf weight inside it; a chunk scores its community's relevance plus its own
+           direct match (the share of the query's idf weight it mentions).
+           Ties: stronger connection inside its community, then chunk id.
+
+        Returns the top_k chunks as {chunk_id, source, text, score, matches}, where matches is
+        the number of query synsets the chunk mentions directly.
+        """
+        try:
+            import igraph as ig
+        except ImportError as e:  # pragma: no cover - dependency guard
+            raise RuntimeError("Label propagation retrieval needs: pip install igraph") from e
+
+        seeds = list(dict.fromkeys(synset_ids))
+        if not seeds:
+            return []
+
+        records, _, _ = self.driver.execute_query(
+            self._LOCAL_SUBGRAPH_QUERY, synset_ids=seeds, database_=self.database
+        )
+        if not records:
+            return []
+
+        # Node keys are prefixed so a chunk id can never collide with a synset id.
+        neighbours: dict[str, dict[str, float]] = {}
+        for r in records:
+            c, s, w = "c:" + r["chunk_id"], "s:" + r["synset_id"], float(r["weight"])
+            neighbours.setdefault(c, {})[s] = w
+            neighbours.setdefault(s, {})[c] = w
+
+        present = ["s:" + sid for sid in seeds if "s:" + sid in neighbours]
+        if not present:
+            return []
+
+        nodes = sorted(neighbours)
+        index = {node: i for i, node in enumerate(nodes)}
+        edges, weights = [], []
+        for node, nbrs in neighbours.items():
+            if node.startswith("c:"):
+                for nbr, w in nbrs.items():
+                    edges.append((index[node], index[nbr]))
+                    weights.append(w)
+        graph = ig.Graph(n=len(nodes), edges=edges, directed=False)
+        graph.es["weight"] = weights
+
+        chunks = [node for node in nodes if node.startswith("c:")]
+        idf = {s: math.log(1 + len(chunks) / len(neighbours[s])) for s in present}
+        total = sum(idf.values()) or 1.0
+        direct = {c: sum(idf[s] for s in present if s in neighbours[c]) / total for c in chunks}
+
+        score = {c: 0.0 for c in chunks}
+        inside = {c: 0.0 for c in chunks}
+        for run in range(max(1, runs)):
+            ig.set_random_number_generator(random.Random(seed + run))
+            membership = graph.community_label_propagation(weights="weight").membership
+            community = {node: membership[index[node]] for node in nodes}
+            relevance: dict[int, float] = {}
+            for s in present:
+                relevance[community[s]] = relevance.get(community[s], 0.0) + idf[s] / total
+            for c in chunks:
+                comm = community[c]
+                score[c] += relevance.get(comm, 0.0) + direct[c]
+                inside[c] += sum(w for nbr, w in neighbours[c].items() if community[nbr] == comm)
+        ig.set_random_number_generator(random)  # restore igraph's default generator
+
+        n_runs = max(1, runs)
+        ranked = sorted(chunks, key=lambda c: (-score[c], -inside[c], c))[:top_k]
+        ranked = [c for c in ranked if score[c] > 0]
+        if not ranked:
+            return []
+
+        details, _, _ = self.driver.execute_query(
+            "MATCH (c:Chunk) WHERE c.id IN $ids RETURN c.id AS chunk_id, c.source AS source, c.text AS text",
+            ids=[c[2:] for c in ranked],
+            database_=self.database,
+        )
+        by_id = {d["chunk_id"]: d.data() for d in details}
+        seed_set = set(present)
+        return [
+            {
+                **by_id[c[2:]],
+                "score": round(score[c] / n_runs, 6),
+                "matches": sum(1 for s in neighbours[c] if s in seed_set),
+            }
+            for c in ranked
+        ]
