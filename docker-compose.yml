@@ -9,11 +9,12 @@ services:
 
     ports:
       - "7474:7474"
-      - "7687:7687"
 
     volumes:
       - neo4j_data:/data
 
+    networks:
+      - docker
     healthcheck:
       test:
         - CMD-SHELL
@@ -23,5 +24,31 @@ services:
       retries: 10
       start_period: 30s
 
+  symbolic-rag:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: symbolic-rag
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    networks:
+      - docker
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.symbolic-rag.rule=Host(`symbolic-rag.talkingdb.io`)"
+      - "traefik.http.routers.symbolic-rag.entrypoints=websecure"
+      - "traefik.http.routers.symbolic-rag.tls.certresolver=le"
+      - "traefik.http.services.symbolic-rag.loadbalancer.server.port=8000"
+
 volumes:
   neo4j_data:
+
+networks:
+  docker:
+    external: true

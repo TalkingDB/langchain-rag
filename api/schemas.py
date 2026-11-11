@@ -15,6 +15,13 @@ class QueryRequest(BaseModel):
         description="Natural-language question to answer.",
         examples=["How does Alice meet the Mad Hatter?"],
     )
+    top_k: int | None = Field(
+        default=None,
+        ge=1,
+        le=200,
+        description="Max chunks used as context. Default: vector 3, symbolic all matching chunks. "
+        "Set the same value on both endpoints to compare them on an equal context budget.",
+    )
 
 
 class SymbolicIngestRequest(BaseModel):
@@ -23,6 +30,18 @@ class SymbolicIngestRequest(BaseModel):
         ge=1,
         description="Only send the first N chunks to the WSD service (same as the CLI --limit flag). "
         "Omit to process every chunk (slow: ~8s per chunk).",
+    )
+    offset: int = Field(
+        default=0,
+        ge=0,
+        description="Skip the first N chunks. Combine with `limit` to ingest in batches "
+        "(offset=0, 50, 100, ...); a batch past the last chunk processes nothing.",
+    )
+    workers: int = Field(
+        default=1,
+        ge=1,
+        le=16,
+        description="Parallel connections to the WSD service within this batch (default 1 = sequential).",
     )
 
 
