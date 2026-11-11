@@ -10,7 +10,7 @@ router = APIRouter(prefix="/query", tags=["query"])
 @router.post("/vector", response_model=VectorQueryResponse, responses=ERROR_RESPONSES)
 def query_vector(body: QueryRequest) -> VectorQueryResponse:
     """Answer a question from the Chroma store with an LLM (same as `python query_data.py "<query>"`)."""
-    result = run_script("Vector query", vector_service.query, body.query)
+    result = run_script("Vector query", vector_service.query, body.query, top_k=body.top_k)
     return VectorQueryResponse(query=body.query, **result)
 
 
@@ -18,5 +18,5 @@ def query_vector(body: QueryRequest) -> VectorQueryResponse:
 def query_symbolic(body: QueryRequest) -> SymbolicQueryResponse:
     """Answer a question from chunks in Neo4j that share the query's WSD synsets
     (same as `python query_data_by_wsd.py "<query>"`)."""
-    result = run_script("Symbolic query", symbolic_service.query, body.query)
+    result = run_script("Symbolic query", symbolic_service.query, body.query, top_k=body.top_k)
     return SymbolicQueryResponse(query=body.query, **result)
