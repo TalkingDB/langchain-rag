@@ -27,7 +27,11 @@ def ingest_symbolic(body: SymbolicIngestRequest | None = None) -> SymbolicIngest
     """Link entities in every chunk with the WSD service and store them in Neo4j
     (same as `python symbolic_link_data.py [--limit N]`). The request body is optional."""
     limit = body.limit if body else None
-    result = run_script("Symbolic ingestion", symbolic_service.ingest, limit=limit)
+    offset = body.offset if body else 0
+    workers = body.workers if body else 1
+    result = run_script(
+        "Symbolic ingestion", symbolic_service.ingest, limit=limit, offset=offset, workers=workers
+    )
     message = f"Stored {result['chunks_inserted']} of {result['chunks_total']} chunks in Neo4j."
     if result["failed_chunks"]:
         message += f" {len(result['failed_chunks'])} chunks failed entity linking."

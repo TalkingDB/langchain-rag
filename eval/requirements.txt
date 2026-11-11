@@ -1,0 +1,5 @@
+# Extra dependencies for eval/ (on top of requirements.txt).
+ragas==0.4.3
+# chromadb 0.5 needs numpy<2; newer pyarrow (pulled in by ragas -> datasets) needs numpy>=2.
+pyarrow<20
+numpy<2

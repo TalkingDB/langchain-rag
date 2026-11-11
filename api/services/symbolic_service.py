@@ -2,6 +2,7 @@
 symbolic_link_data.py and query_data_by_wsd.py."""
 import threading
 import urllib.error
+from concurrent.futures import ThreadPoolExecutor
 from types import ModuleType
 
 from api.services import IngestionInProgressError, ServiceError
@@ -25,25 +26,38 @@ def _wsd_unreachable(e: Exception) -> ServiceError:
     return ServiceError(f"Symbolic WSD service request failed: {e}", status_code=502)
 
 
-def ingest(limit: int | None = None) -> dict:
+def ingest(limit: int | None = None, offset: int = 0, workers: int = 1) -> dict:
     """Do what `python symbolic_link_data.py [--limit N]` does, returning the counts instead of printing them.
 
     Uses the script's own make_chunks, link_entities, to_senses and process_and_store.
+    `offset` + `limit` select one batch of chunks, so a long ingestion can be split into
+    many short requests (Neo4j writes are MERGEs, so re-sending a batch is harmless).
+    `workers` > 1 sends that many chunks to the WSD service in parallel; results keep chunk order.
     """
     if not _ingest_lock.acquire(blocking=False):
         raise IngestionInProgressError("Symbolic")
     try:
         sld = _load_symbolic_link_data()
 
-        chunks = sld.make_chunks()
+        chunks = sld.make_chunks()[offset:]
         if limit:
             chunks = chunks[:limit]
 
-        results, failed = [], []
-        for chunk in chunks:
+        def link(chunk):
             try:
-                senses = sld.to_senses(sld.link_entities(chunk["text"]))
+                return sld.to_senses(sld.link_entities(chunk["text"]))
             except (urllib.error.URLError, TimeoutError, ValueError, KeyError):
+                return None
+
+        if workers > 1:
+            with ThreadPoolExecutor(max_workers=workers) as pool:
+                linked = list(pool.map(link, chunks))
+        else:
+            linked = [link(chunk) for chunk in chunks]
+
+        results, failed = [], []
+        for chunk, senses in zip(chunks, linked):
+            if senses is None:
                 failed.append(chunk["chunk_id"])
                 continue
             results.append({**chunk, "senses": senses})
@@ -59,7 +73,7 @@ def ingest(limit: int | None = None) -> dict:
         _ingest_lock.release()
 
 
-def query(query_text: str) -> dict:
+def query(query_text: str, top_k: int | None = None, return_contexts: bool = False) -> dict:
     """Answer a question from the Neo4j graph.
 
     Makes the same calls as query_data_by_wsd.main(): link the query's entities to synsets
@@ -89,8 +103,13 @@ def query(query_text: str) -> dict:
             results = graph.find_chunks_by_synset_ids(synset_ids)
         finally:
             graph.close()
+    if top_k:  # results are ranked: most matched synsets first (ties by chunk id)
+        results = results[:top_k]
     if len(results) == 0:
-        return {"found": False, "answer": None, "sources": [], "synsets": synsets}
+        out = {"found": False, "answer": None, "sources": [], "synsets": synsets}
+        if return_contexts:
+            out["contexts"] = []
+        return out
 
     context_text = "\n\n---\n\n".join([chunk["text"] for chunk in results])
     prompt = ChatPromptTemplate.from_template(PROMPT_TEMPLATE).format(
@@ -101,4 +120,7 @@ def query(query_text: str) -> dict:
     response_text = model.invoke(prompt).content
 
     sources = [f"{chunk['source']} ({chunk['chunk_id']})" for chunk in results]
-    return {"found": True, "answer": response_text, "sources": sources, "synsets": synsets}
+    out = {"found": True, "answer": response_text, "sources": sources, "synsets": synsets}
+    if return_contexts:
+        out["contexts"] = [chunk["text"] for chunk in results]
+    return out
