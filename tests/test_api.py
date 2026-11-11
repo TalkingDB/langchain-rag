@@ -37,15 +37,16 @@ def test_ingest_vector_script_failure_returns_500(client, monkeypatch):
 def test_ingest_symbolic_passes_limit_and_reports_counts(client, monkeypatch):
     calls = {}
 
-    def fake_ingest(limit=None):
-        calls["limit"] = limit
+    def fake_ingest(limit=None, offset=0, workers=1):
+        calls["limit"], calls["offset"] = limit, offset
         return {"chunks_total": 5, "chunks_inserted": 4, "senses_processed": 12, "failed_chunks": ["alice-3"]}
 
     monkeypatch.setattr(symbolic_service, "ingest", fake_ingest)
-    response = client.post("/api/v1/ingest/symbolic", json={"limit": 5})
+    response = client.post("/api/v1/ingest/symbolic", json={"limit": 5, "offset": 10})
     assert response.status_code == 200
     body = response.json()
     assert calls["limit"] == 5
+    assert calls["offset"] == 10
     assert body["chunks_inserted"] == 4
     assert body["failed_chunks"] == ["alice-3"]
 
@@ -54,7 +55,7 @@ def test_ingest_symbolic_without_body(client, monkeypatch):
     monkeypatch.setattr(
         symbolic_service,
         "ingest",
-        lambda limit=None: {"chunks_total": 0, "chunks_inserted": 0, "senses_processed": 0, "failed_chunks": []},
+        lambda limit=None, offset=0, workers=1: {"chunks_total": 0, "chunks_inserted": 0, "senses_processed": 0, "failed_chunks": []},
     )
     assert client.post("/api/v1/ingest/symbolic").status_code == 200
 
@@ -71,7 +72,7 @@ def test_query_vector(client, monkeypatch):
     monkeypatch.setattr(
         vector_service,
         "query",
-        lambda q: {"found": True, "answer": "At a tea party.", "sources": ["data/books/alice_in_wonderland.md"]},
+        lambda q, top_k=None: {"found": True, "answer": "At a tea party.", "sources": ["data/books/alice_in_wonderland.md"]},
     )
     response = client.post("/api/v1/query/vector", json={"query": "How does Alice meet the Mad Hatter?"})
     assert response.status_code == 200
@@ -79,7 +80,7 @@ def test_query_vector(client, monkeypatch):
 
 
 def test_query_vector_no_match(client, monkeypatch):
-    monkeypatch.setattr(vector_service, "query", lambda q: {"found": False, "answer": None, "sources": []})
+    monkeypatch.setattr(vector_service, "query", lambda q, top_k=None: {"found": False, "answer": None, "sources": []})
     body = client.post("/api/v1/query/vector", json={"query": "unrelated"}).json()
     assert body["found"] is False and body["answer"] is None
 
@@ -94,7 +95,7 @@ def test_query_symbolic(client, monkeypatch):
     monkeypatch.setattr(
         symbolic_service,
         "query",
-        lambda q: {
+        lambda q, top_k=None: {
             "found": True,
             "answer": "A hatter at the tea party.",
             "sources": ["alice_in_wonderland.md (alice_in_wonderland-3)"],
@@ -131,3 +132,19 @@ def test_missing_config_returns_500_instead_of_killing_server(client, monkeypatc
     response = client.post("/api/v1/query/symbolic", json={"query": "anything"})
     assert response.status_code == 500
     assert "SYMBOLIC_WSD_URL" in response.json()["detail"]
+
+
+@pytest.mark.parametrize("mode, service", [("vector", vector_service), ("symbolic", symbolic_service)])
+def test_query_passes_top_k(client, monkeypatch, mode, service):
+    calls = {}
+
+    def fake_query(q, top_k=None):
+        calls["top_k"] = top_k
+        return {"found": False, "answer": None, "sources": []}
+
+    monkeypatch.setattr(service, "query", fake_query)
+    assert client.post(f"/api/v1/query/{mode}", json={"query": "x", "top_k": 5}).status_code == 200
+    assert calls["top_k"] == 5
+    assert client.post(f"/api/v1/query/{mode}", json={"query": "x"}).status_code == 200
+    assert calls["top_k"] is None  # default keeps the original behaviour
+    assert client.post(f"/api/v1/query/{mode}", json={"query": "x", "top_k": 0}).status_code == 422
