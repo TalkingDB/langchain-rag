@@ -5,3 +5,6 @@ chroma
 
 .venv/
 __pycache__/
+
+# eval outputs
+eval/results/

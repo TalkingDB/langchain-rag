@@ -70,3 +70,14 @@ curl -X POST http://localhost:8000/api/v1/query/vector \
 Ingestion runs synchronously, so the request stays open until it finishes. Full symbolic ingestion takes about 8 seconds per chunk; pass `limit` for a quick run. A second ingestion of the same type while one is running returns `409`. A script failure returns `500` with the error in `detail`, and an unreachable WSD service returns `502`.
 
 Here is a step-by-step tutorial video: [RAG+Langchain Python Project: Easy AI/Chat For Your Docs](https://www.youtube.com/watch?v=tcqEUSNCn8I&ab_channel=pixegami).
+
+## Evaluation
+
+Benchmark the vector and symbolic pipelines on a fixed question set (answers, retrieval, LLM judge, RAGAS, HTML report):
+
+```bash
+pip install -r eval/requirements.txt
+python -m eval.run --top-k 5
+```
+
+See [eval/README.md](eval/README.md).
