@@ -100,11 +100,10 @@ def query(query_text: str, top_k: int | None = None, return_contexts: bool = Fal
     if synset_ids:
         graph = GraphRepository()
         try:
-            results = graph.find_chunks_by_ppr(synset_ids)
+            # Personalized PageRank from the query's synsets; keep the top_k chunks (default 5).
+            results = graph.find_chunks_by_ppr(synset_ids, top_k=top_k or 5)
         finally:
             graph.close()
-    if top_k:  # results are ranked: most matched synsets first (ties by chunk id)
-        results = results[:top_k]
     if len(results) == 0:
         out = {"found": False, "answer": None, "sources": [], "synsets": synsets}
         if return_contexts:

@@ -32,7 +32,7 @@ python -m eval.report eval/results/<run_id> [eval/results/<other_run>]   # rebui
 |---|---|---|
 | `--dataset` | `data/eval/testset_stripped.csv` | `.csv` / `.jsonl` / `.json`. RAGAS testset columns are mapped automatically. |
 | `--modes` | `vector symbolic` | Which pipelines to evaluate. |
-| `--top-k` | service default | Chunks per question. The defaults are 3 for vector and all matching chunks for symbolic. |
+| `--top-k` | service default | Chunks per question. The defaults are 3 for vector and 5 for symbolic (Personalized PageRank). |
 | `--limit` | all | Use only the first N questions. |
 | `--workers` | 1 | Questions in parallel. Symbolic calls the shared WSD service, so keep this low. |
 | `--no-judge` / `--judge-model` / `--judge-metrics` | judge on, `gpt-4.1-mini` | LLM-as-judge settings. |

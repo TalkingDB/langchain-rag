@@ -19,7 +19,7 @@ class QueryRequest(BaseModel):
         default=None,
         ge=1,
         le=200,
-        description="Max chunks used as context. Default: vector 3, symbolic all matching chunks. "
+        description="Max chunks used as context. Default: vector 3, symbolic 5 (Personalized PageRank). "
         "Set the same value on both endpoints to compare them on an equal context budget.",
     )
 
