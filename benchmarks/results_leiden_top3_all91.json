@@ -1,0 +1,4040 @@
+{
+  "args": {
+    "csv": "data/eval/testset_stripped.csv",
+    "n": 91,
+    "seed": 42,
+    "first": true,
+    "methods": [
+      "leiden_top3"
+    ],
+    "out": "benchmarks\\results_leiden_top3_all91.json",
+    "resume": true
+  },
+  "summary": {
+    "leiden_top3": {
+      "hit_rate": 0.7472527472527473,
+      "mrr": 0.6684981684981685,
+      "ans_in_ctx": 0.5274725274725275,
+      "accuracy": 0.6703296703296703,
+      "avg_chunks": 3,
+      "avg_context_chars": 758.5934065934066,
+      "median_retrieval_ms": 3092.4,
+      "mean_retrieval_ms": 3139.892307692308,
+      "max_retrieval_ms": 5240.0,
+      "median_pipeline_ms": 5224.3
+    }
+  },
+  "results": [
+    {
+      "row": 1,
+      "question": "What is Steven M. Christey's role?",
+      "reference": "Principal Information Security Engineer and CVE Editor",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "Steven",
+          "w1774501"
+        ],
+        [
+          "M",
+          "n13750844"
+        ],
+        [
+          "role",
+          "n05149325"
+        ]
+      ],
+      "wsd_ms": 1344.7,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2529.5,
+          "answer_ms": 6127.1,
+          "pipeline_ms": 10001.3,
+          "n_chunks": 3,
+          "context_chars": 415,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "Steven M. Christey's role is Principal Information Security Engineer and CVE Editor at Mitre.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-17",
+            "18_thoreau_civil_disobedience-208",
+            "19_irving_legend_of_sleepy_hollow-153"
+          ]
+        }
+      }
+    },
+    {
+      "row": 2,
+      "question": "What is accessible for AI SBOM Compliance guidance?",
+      "reference": "Legal expertise",
+      "source": "16_openchain_ai_sbom_compliance_guide_v1.docx",
+      "synsets": [
+        [
+          "accessible",
+          "a00019131"
+        ],
+        [
+          "AI",
+          "n06133203"
+        ],
+        [
+          "SBOM",
+          "w45074771"
+        ],
+        [
+          "Compliance",
+          "n01203676"
+        ],
+        [
+          "guidance",
+          "n06650701"
+        ]
+      ],
+      "wsd_ms": 709.1,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3754.3,
+          "answer_ms": 1155.7,
+          "pipeline_ms": 5619.1,
+          "n_chunks": 3,
+          "context_chars": 819,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "Legal expertise pertaining to AI SBOM Compliance is accessible for those who may need such guidance.",
+          "chunk_ids": [
+            "16_openchain_ai_sbom_compliance_guide_v1-68",
+            "16_openchain_ai_sbom_compliance_guide_v1-26",
+            "16_openchain_ai_sbom_compliance_guide_v1-6"
+          ]
+        }
+      }
+    },
+    {
+      "row": 3,
+      "question": "What is the name of Katrina's father?",
+      "reference": "A substantial Dutch farmer",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "name",
+          "n14438788"
+        ],
+        [
+          "father",
+          "n10080869"
+        ]
+      ],
+      "wsd_ms": 771.0,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2791.7,
+          "answer_ms": 1721.6,
+          "pipeline_ms": 5284.3,
+          "n_chunks": 3,
+          "context_chars": 753,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": true,
+          "answer": "The provided context does not mention the name of Katrina's father.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-146",
+            "19_irving_legend_of_sleepy_hollow-75",
+            "19_irving_legend_of_sleepy_hollow-56"
+          ]
+        }
+      }
+    },
+    {
+      "row": 4,
+      "question": "What format must be used for Project Gutenberg works?",
+      "reference": "Plain Vanilla ASCII",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "format",
+          "n06636806"
+        ],
+        [
+          "used",
+          "v01158872"
+        ],
+        [
+          "Project Gutenberg",
+          "w23301"
+        ],
+        [
+          "works",
+          "v02536557"
+        ]
+      ],
+      "wsd_ms": 789.6,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3781.8,
+          "answer_ms": 1125.3,
+          "pipeline_ms": 5696.7,
+          "n_chunks": 3,
+          "context_chars": 865,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "Project Gutenberg works must be distributed in the \"Plain Vanilla ASCII\" format or the format used in the official version posted on the official Project Gutenberg website (www.gutenberg.org).",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-292",
+            "17_owasp_top10_2004-63",
+            "17_owasp_top10_2004-121"
+          ]
+        }
+      }
+    },
+    {
+      "row": 5,
+      "question": "Who is the Executive Director of CERIAS?",
+      "reference": "Eugene H. Spafford",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "Executive Director",
+          "n10069645"
+        ],
+        [
+          "CERIAS",
+          "w28321566"
+        ]
+      ],
+      "wsd_ms": 1310.5,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 1953.1,
+          "answer_ms": 988.4,
+          "pipeline_ms": 4252.0,
+          "n_chunks": 3,
+          "context_chars": 661,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The Executive Director of CERIAS is Eugene H. Spafford.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-12",
+            "17_owasp_top10_2004-14",
+            "17_owasp_top10_2004-39"
+          ]
+        }
+      }
+    },
+    {
+      "row": 6,
+      "question": "What license is this guide under?",
+      "reference": "Creative Commons Attribution License 4.0",
+      "source": "16_openchain_ai_sbom_compliance_guide_v1.docx",
+      "synsets": [
+        [
+          "license",
+          "n06549661"
+        ],
+        [
+          "guide",
+          "n10741821"
+        ]
+      ],
+      "wsd_ms": 410.2,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2998.0,
+          "answer_ms": 966.8,
+          "pipeline_ms": 4374.9,
+          "n_chunks": 3,
+          "context_chars": 740,
+          "hit": true,
+          "first_gold_rank": 2,
+          "rr": 0.5,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "This guide is licensed under the Creative Commons Attribution License 4.0 (CC-BY-4.0).",
+          "chunk_ids": [
+            "16_openchain_ai_sbom_compliance_guide_v1-6",
+            "16_openchain_ai_sbom_compliance_guide_v1-8",
+            "16_openchain_ai_sbom_compliance_guide_v1-12"
+          ]
+        }
+      }
+    },
+    {
+      "row": 7,
+      "question": "Who is the Director of Research & Development at @stake, Inc.?",
+      "reference": "Chris Wysopal",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "Director",
+          "n10014939"
+        ],
+        [
+          "Research & Development",
+          "w254769"
+        ],
+        [
+          "@stake",
+          "w1915982"
+        ],
+        [
+          "Inc",
+          "n08403907"
+        ]
+      ],
+      "wsd_ms": 1094.6,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2196.1,
+          "answer_ms": 1506.7,
+          "pipeline_ms": 4797.5,
+          "n_chunks": 3,
+          "context_chars": 179,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "Chris Wysopal is the Director of Research & Development at @stake, Inc.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-35",
+            "17_owasp_top10_2004-45",
+            "17_owasp_top10_2004-41"
+          ]
+        }
+      }
+    },
+    {
+      "row": 8,
+      "question": "What is the version of the Compliance Management Guide?",
+      "reference": "Version 1.0",
+      "source": "16_openchain_ai_sbom_compliance_guide_v1.docx",
+      "synsets": [
+        [
+          "version",
+          "n07173585"
+        ],
+        [
+          "Compliance",
+          "n01203676"
+        ],
+        [
+          "Management",
+          "n01133281"
+        ],
+        [
+          "Guide",
+          "n10741821"
+        ]
+      ],
+      "wsd_ms": 710.4,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2949.3,
+          "answer_ms": 924.9,
+          "pipeline_ms": 4584.5,
+          "n_chunks": 3,
+          "context_chars": 740,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The version of the Compliance Management Guide is not specified in the provided context.",
+          "chunk_ids": [
+            "16_openchain_ai_sbom_compliance_guide_v1-6",
+            "16_openchain_ai_sbom_compliance_guide_v1-8",
+            "16_openchain_ai_sbom_compliance_guide_v1-12"
+          ]
+        }
+      }
+    },
+    {
+      "row": 9,
+      "question": "What was Ichabod's companion carrying?",
+      "reference": "His head on the pommel of his saddle",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "companion",
+          "n03079616"
+        ],
+        [
+          "carrying",
+          "v01449974"
+        ]
+      ],
+      "wsd_ms": 614.4,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2789.4,
+          "answer_ms": 989.2,
+          "pipeline_ms": 4393.0,
+          "n_chunks": 3,
+          "context_chars": 694,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "Ichabod's companion was carrying his whip perpendicularly in his hand, like a sceptre.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-156",
+            "19_irving_legend_of_sleepy_hollow-150",
+            "19_irving_legend_of_sleepy_hollow-183"
+          ]
+        }
+      }
+    },
+    {
+      "row": 10,
+      "question": "What must you do to use Project Gutenberg works?",
+      "reference": "Comply with all the terms of the license",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "use",
+          "v01158872"
+        ],
+        [
+          "Project Gutenberg",
+          "w23301"
+        ],
+        [
+          "works",
+          "v02536557"
+        ]
+      ],
+      "wsd_ms": 595.0,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3561.1,
+          "answer_ms": 1432.4,
+          "pipeline_ms": 5588.6,
+          "n_chunks": 3,
+          "context_chars": 827,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": true,
+          "answer": "To use Project Gutenberg works, you must comply with all the terms of the Full Project Gutenberg license agreement. Additionally, since \"Project Gutenberg\" is a registered trademark, you may only use or associate it with electronic works if you follow the trademark rules, which include not charging for the eBooks unless you have received specific permission.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-262",
+            "18_thoreau_civil_disobedience-267",
+            "18_thoreau_civil_disobedience-258"
+          ]
+        }
+      }
+    },
+    {
+      "row": 11,
+      "question": "What does the WAS Thesaurus define?",
+      "reference": "A standard language for discussing web application security",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "Thesaurus",
+          "n06421016"
+        ],
+        [
+          "define",
+          "n06744396"
+        ]
+      ],
+      "wsd_ms": 1722.6,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2370.6,
+          "answer_ms": 1211.6,
+          "pipeline_ms": 5304.9,
+          "n_chunks": 3,
+          "context_chars": 891,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": true,
+          "answer": "The WAS Thesaurus defines a standard language for discussing web application security vulnerabilities.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-93",
+            "17_owasp_top10_2004-81",
+            "17_owasp_top10_2004-99"
+          ]
+        }
+      }
+    },
+    {
+      "row": 12,
+      "question": "Where can IEC Electropedia be accessed?",
+      "reference": "http://www.electropedia.org/",
+      "source": "16_openchain_ai_sbom_compliance_guide_v1.docx",
+      "synsets": [
+        [
+          "Where",
+          "w31639681"
+        ],
+        [
+          "IEC",
+          "w15144"
+        ],
+        [
+          "Electropedia",
+          "w43104649"
+        ],
+        [
+          "accessed",
+          "v02248808"
+        ]
+      ],
+      "wsd_ms": 1438.6,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3303.5,
+          "answer_ms": 4393.2,
+          "pipeline_ms": 9135.3,
+          "n_chunks": 3,
+          "context_chars": 739,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "IEC Electropedia can be accessed at http://www.electropedia.org/",
+          "chunk_ids": [
+            "16_openchain_ai_sbom_compliance_guide_v1-33",
+            "16_openchain_ai_sbom_compliance_guide_v1-88",
+            "16_openchain_ai_sbom_compliance_guide_v1-72"
+          ]
+        }
+      }
+    },
+    {
+      "row": 13,
+      "question": "Who is the object of Brom Bones' gallantries?",
+      "reference": "Katrina",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "object",
+          "n00002684"
+        ],
+        [
+          "Brom",
+          "w1063354"
+        ],
+        [
+          "Bones'",
+          "w4853654"
+        ],
+        [
+          "gallantries",
+          "n04857738"
+        ]
+      ],
+      "wsd_ms": 1229.3,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3028.3,
+          "answer_ms": 1000.4,
+          "pipeline_ms": 5258.0,
+          "n_chunks": 3,
+          "context_chars": 665,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The object of Brom Bones' gallantries is the blooming Katrina.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-138",
+            "19_irving_legend_of_sleepy_hollow-137",
+            "19_irving_legend_of_sleepy_hollow-288"
+          ]
+        }
+      }
+    },
+    {
+      "row": 14,
+      "question": "What new category was added to the WAS TC Thesaurus?",
+      "reference": "A9 Denial of Service",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "new",
+          "a01640850"
+        ],
+        [
+          "category",
+          "n07997703"
+        ],
+        [
+          "added",
+          "v00182406"
+        ],
+        [
+          "TC",
+          "n05452516"
+        ],
+        [
+          "Thesaurus",
+          "n06421016"
+        ]
+      ],
+      "wsd_ms": 1125.6,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3153.8,
+          "answer_ms": 1491.0,
+          "pipeline_ms": 5770.4,
+          "n_chunks": 3,
+          "context_chars": 886,
+          "hit": true,
+          "first_gold_rank": 2,
+          "rr": 0.5,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The new category added to the WAS TC Thesaurus is **Input Validation**, corresponding to the new Top Ten 2004 entry \"A1 Unvalidated Input.\"",
+          "chunk_ids": [
+            "17_owasp_top10_2004-93",
+            "17_owasp_top10_2004-99",
+            "17_owasp_top10_2004-97"
+          ]
+        }
+      }
+    },
+    {
+      "row": 15,
+      "question": "What did Ichabod hear as he approached the tree?",
+      "reference": "A groan",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "Ichabod",
+          "w3472254"
+        ],
+        [
+          "hear",
+          "v02169702"
+        ],
+        [
+          "approached",
+          "v02053941"
+        ],
+        [
+          "tree",
+          "n13104059"
+        ]
+      ],
+      "wsd_ms": 1124.0,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3960.2,
+          "answer_ms": 1873.8,
+          "pipeline_ms": 6958.0,
+          "n_chunks": 3,
+          "context_chars": 780,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "As Ichabod approached the tree, he thought his whistle was answered, but it was actually just a blast of wind sweeping sharply through the dry branches.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-272",
+            "19_irving_legend_of_sleepy_hollow-268",
+            "19_irving_legend_of_sleepy_hollow-238"
+          ]
+        }
+      }
+    },
+    {
+      "row": 16,
+      "question": "What is a common method used by attackers for input manipulation?",
+      "reference": "Parameter fuzzing",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "common",
+          "a00485711"
+        ],
+        [
+          "method",
+          "n05660268"
+        ],
+        [
+          "used",
+          "v01158872"
+        ],
+        [
+          "attackers",
+          "n09821253"
+        ],
+        [
+          "input",
+          "n06765044"
+        ],
+        [
+          "manipulation",
+          "n00158185"
+        ]
+      ],
+      "wsd_ms": 1045.0,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2672.8,
+          "answer_ms": 1287.1,
+          "pipeline_ms": 5004.9,
+          "n_chunks": 3,
+          "context_chars": 883,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "A common method used by attackers for input manipulation is encoding input parameters in multiple formats to mask malicious input. This obfuscation exploits the fact that parameters are not always decoded to their simplest form before validation, allowing attacks to slip past filters. This technique involves using various encodings that require a process called \"canonicalization\" to simplify and properly validate the input.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-70",
+            "17_owasp_top10_2004-120",
+            "17_owasp_top10_2004-121"
+          ]
+        }
+      }
+    },
+    {
+      "row": 17,
+      "question": "Who spoke before the Information Technology Association of America?",
+      "reference": "J. Howard Beales, III",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "spoke",
+          "v00963570"
+        ],
+        [
+          "Information Technology",
+          "n06134510"
+        ],
+        [
+          "Association",
+          "n08049401"
+        ],
+        [
+          "America",
+          "n09044862"
+        ]
+      ],
+      "wsd_ms": 1461.6,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2372.0,
+          "answer_ms": 1043.8,
+          "pipeline_ms": 4877.4,
+          "n_chunks": 3,
+          "context_chars": 803,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "J. Howard Beales, III, Director of the Federal Trade Commission's Bureau of Consumer Protection, spoke before the Information Technology Association of America's Internet Policy Committee.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-7",
+            "17_owasp_top10_2004-48",
+            "17_owasp_top10_2004-51"
+          ]
+        }
+      }
+    },
+    {
+      "row": 18,
+      "question": "What governs AI SBOM compliance?",
+      "reference": "A written policy",
+      "source": "16_openchain_ai_sbom_compliance_guide_v1.docx",
+      "synsets": [
+        [
+          "governs",
+          "v02511551"
+        ],
+        [
+          "AI",
+          "n06133203"
+        ],
+        [
+          "SBOM",
+          "w45074771"
+        ],
+        [
+          "compliance",
+          "n01203676"
+        ]
+      ],
+      "wsd_ms": 657.0,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3108.6,
+          "answer_ms": 1165.0,
+          "pipeline_ms": 4930.6,
+          "n_chunks": 3,
+          "context_chars": 850,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "AI SBOM compliance is governed by a written policy that is internally communicated and informed by business strategy, legal requirements in the relevant jurisdictions, and the level of risk appropriate for the use case.",
+          "chunk_ids": [
+            "16_openchain_ai_sbom_compliance_guide_v1-39",
+            "16_openchain_ai_sbom_compliance_guide_v1-6",
+            "16_openchain_ai_sbom_compliance_guide_v1-73"
+          ]
+        }
+      }
+    },
+    {
+      "row": 19,
+      "question": "What type of hat is compared to Mercury's cap?",
+      "reference": "Round-crowned fragment of a hat",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "type",
+          "n08111419"
+        ],
+        [
+          "hat",
+          "n03497657"
+        ],
+        [
+          "compared",
+          "v00652900"
+        ],
+        [
+          "cap",
+          "n02954340"
+        ]
+      ],
+      "wsd_ms": 753.7,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 5240.0,
+          "answer_ms": 1431.6,
+          "pipeline_ms": 7425.3,
+          "n_chunks": 3,
+          "context_chars": 639,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The hat is described as a \"round-crowned fragment of a hat, like the cap of Mercury.\"",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-169",
+            "19_irving_legend_of_sleepy_hollow-322",
+            "19_irving_legend_of_sleepy_hollow-190"
+          ]
+        }
+      }
+    },
+    {
+      "row": 20,
+      "question": "What does the Global AI Governance Initiative address?",
+      "reference": "Ethical considerations, risk management, and transparency",
+      "source": "16_openchain_ai_sbom_compliance_guide_v1.docx",
+      "synsets": [
+        [
+          "Global",
+          "a01568684"
+        ],
+        [
+          "AI Governance",
+          "w63451675"
+        ],
+        [
+          "Initiative",
+          "n04836074"
+        ],
+        [
+          "address",
+          "n06356515"
+        ]
+      ],
+      "wsd_ms": 938.2,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2600.4,
+          "answer_ms": 1441.5,
+          "pipeline_ms": 4980.1,
+          "n_chunks": 3,
+          "context_chars": 894,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The Global AI Governance Initiative addresses ethical considerations, risk management, and transparency in the development, deployment, and management of AI systems, ensuring compliance with emerging AI laws and regulations.",
+          "chunk_ids": [
+            "16_openchain_ai_sbom_compliance_guide_v1-79",
+            "16_openchain_ai_sbom_compliance_guide_v1-78",
+            "17_owasp_top10_2004-171"
+          ]
+        }
+      }
+    },
+    {
+      "row": 21,
+      "question": "What was found beside Ichabod's hat?",
+      "reference": "A shattered pumpkin",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "found",
+          "v02248465"
+        ],
+        [
+          "hat",
+          "n03497657"
+        ]
+      ],
+      "wsd_ms": 820.5,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3281.5,
+          "answer_ms": 1112.8,
+          "pipeline_ms": 5214.9,
+          "n_chunks": 3,
+          "context_chars": 708,
+          "hit": true,
+          "first_gold_rank": 3,
+          "rr": 0.3333333333333333,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "A shattered pumpkin was found beside Ichabod's hat.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-309",
+            "19_irving_legend_of_sleepy_hollow-246",
+            "19_irving_legend_of_sleepy_hollow-314"
+          ]
+        }
+      }
+    },
+    {
+      "row": 22,
+      "question": "What is the title of the fourth section?",
+      "reference": "The Top Ten List",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "title",
+          "n06339416"
+        ],
+        [
+          "fourth",
+          "a02202443"
+        ],
+        [
+          "section",
+          "n05867413"
+        ]
+      ],
+      "wsd_ms": 1245.0,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2427.5,
+          "answer_ms": 1042.5,
+          "pipeline_ms": 4715.1,
+          "n_chunks": 3,
+          "context_chars": 824,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The provided context does not include the title of the fourth section.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-7",
+            "alice_in_wonderland-2",
+            "18_thoreau_civil_disobedience-288"
+          ]
+        }
+      }
+    },
+    {
+      "row": 23,
+      "question": "What is OpenChain ISO/IEC 5230?",
+      "reference": "The international standard for open source license compliance programs",
+      "source": "16_openchain_ai_sbom_compliance_guide_v1.docx",
+      "synsets": [
+        [
+          "OpenChain",
+          "w72325950"
+        ],
+        [
+          "ISO/IEC",
+          "w13229421"
+        ]
+      ],
+      "wsd_ms": 402.8,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3108.9,
+          "answer_ms": 1179.6,
+          "pipeline_ms": 4691.4,
+          "n_chunks": 3,
+          "context_chars": 831,
+          "hit": true,
+          "first_gold_rank": 2,
+          "rr": 0.5,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "OpenChain ISO/IEC 5230 is the international standard for open source license compliance programs.",
+          "chunk_ids": [
+            "16_openchain_ai_sbom_compliance_guide_v1-9",
+            "16_openchain_ai_sbom_compliance_guide_v1-90",
+            "16_openchain_ai_sbom_compliance_guide_v1-88"
+          ]
+        }
+      }
+    },
+    {
+      "row": 24,
+      "question": "What does the mighty Hudson offer in terms of scenery?",
+      "reference": "Some of the goodliest scenes",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "mighty",
+          "a01826575"
+        ],
+        [
+          "Hudson",
+          "n11064106"
+        ],
+        [
+          "offer",
+          "n13304508"
+        ],
+        [
+          "terms",
+          "n13303315"
+        ],
+        [
+          "scenery",
+          "n04145056"
+        ]
+      ],
+      "wsd_ms": 912.0,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3315.8,
+          "answer_ms": 1435.9,
+          "pipeline_ms": 5663.7,
+          "n_chunks": 3,
+          "context_chars": 796,
+          "hit": true,
+          "first_gold_rank": 2,
+          "rr": 0.5,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The mighty Hudson offers some of the goodliest scenes.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-289",
+            "19_irving_legend_of_sleepy_hollow-197",
+            "19_irving_legend_of_sleepy_hollow-217"
+          ]
+        }
+      }
+    },
+    {
+      "row": 25,
+      "question": "What does the OWASP Filters project help prevent?",
+      "reference": "Parameter tampering",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "OWASP",
+          "w2123049"
+        ],
+        [
+          "Filters",
+          "n03340009"
+        ],
+        [
+          "project",
+          "n00795720"
+        ],
+        [
+          "help",
+          "v02735897"
+        ],
+        [
+          "prevent",
+          "v02452885"
+        ]
+      ],
+      "wsd_ms": 706.9,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2810.7,
+          "answer_ms": 1046.4,
+          "pipeline_ms": 4564.0,
+          "n_chunks": 3,
+          "context_chars": 897,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The OWASP Filters project helps prevent many forms of parameter tampering.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-144",
+            "17_owasp_top10_2004-63",
+            "17_owasp_top10_2004-39"
+          ]
+        }
+      }
+    },
+    {
+      "row": 26,
+      "question": "What is the title of Chapter 8 in the OWASP Guide?",
+      "reference": "Data Validation",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "title",
+          "n06345993"
+        ],
+        [
+          "Chapter 8",
+          "w51867813"
+        ],
+        [
+          "OWASP",
+          "w2123049"
+        ],
+        [
+          "Guide",
+          "n10741821"
+        ]
+      ],
+      "wsd_ms": 621.2,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2453.4,
+          "answer_ms": 1424.9,
+          "pipeline_ms": 4499.4,
+          "n_chunks": 3,
+          "context_chars": 740,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The provided context does not include any information about the OWASP Guide or the title of Chapter 8 in it. Therefore, based on the given context, the title of Chapter 8 in the OWASP Guide cannot be determined.",
+          "chunk_ids": [
+            "16_openchain_ai_sbom_compliance_guide_v1-6",
+            "16_openchain_ai_sbom_compliance_guide_v1-8",
+            "16_openchain_ai_sbom_compliance_guide_v1-12"
+          ]
+        }
+      }
+    },
+    {
+      "row": 27,
+      "question": "What is the name of the damsel Ichabod yearns for?",
+      "reference": "Katrina",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "name",
+          "n06333653"
+        ],
+        [
+          "damsel",
+          "n09989168"
+        ],
+        [
+          "Ichabod",
+          "w3472254"
+        ],
+        [
+          "yearns",
+          "v01828405"
+        ]
+      ],
+      "wsd_ms": 593.8,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2262.0,
+          "answer_ms": 1026.5,
+          "pipeline_ms": 3882.3,
+          "n_chunks": 3,
+          "context_chars": 704,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The name of the damsel Ichabod yearns for is not explicitly mentioned in the provided context.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-109",
+            "19_irving_legend_of_sleepy_hollow-64",
+            "alice_in_wonderland-11"
+          ]
+        }
+      }
+    },
+    {
+      "row": 28,
+      "question": "Where can the SPDX Project specification be found?",
+      "reference": "https://spdx.dev/wp-content/uploads/sites/31/2023/09/SPDX-specification-2-2.pdf",
+      "source": "16_openchain_ai_sbom_compliance_guide_v1.docx",
+      "synsets": [
+        [
+          "Where",
+          "w31639681"
+        ],
+        [
+          "SPDX",
+          "w36881536"
+        ],
+        [
+          "Project",
+          "n00795720"
+        ],
+        [
+          "specification",
+          "n06675338"
+        ],
+        [
+          "found",
+          "v00715239"
+        ]
+      ],
+      "wsd_ms": 707.9,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3214.1,
+          "answer_ms": 1596.6,
+          "pipeline_ms": 5518.5,
+          "n_chunks": 3,
+          "context_chars": 748,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The SPDX Project specification can be found at:  \nhttps://spdx.dev/wp-content/uploads/sites/31/2023/09/SPDX-specification-2-2.pdf",
+          "chunk_ids": [
+            "16_openchain_ai_sbom_compliance_guide_v1-84",
+            "16_openchain_ai_sbom_compliance_guide_v1-23",
+            "16_openchain_ai_sbom_compliance_guide_v1-19"
+          ]
+        }
+      }
+    },
+    {
+      "row": 29,
+      "question": "What role did Ichabod Crane have in the neighborhood?",
+      "reference": "Singing-master",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "role",
+          "n00720565"
+        ],
+        [
+          "Ichabod Crane",
+          "w601316"
+        ],
+        [
+          "neighborhood",
+          "n08641113"
+        ]
+      ],
+      "wsd_ms": 6333.2,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2380.9,
+          "answer_ms": 2372.0,
+          "pipeline_ms": 11086.2,
+          "n_chunks": 3,
+          "context_chars": 684,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The provided context does not explicitly state the role of Ichabod Crane in the neighborhood. However, based on the references to Brom Bones, Katrina, and the setting near a church and a valley, it can be inferred that Ichabod Crane was a figure involved in the local community, likely as a schoolteacher or a similar role, given the typical associations in this narrative. But the exact role is not directly mentioned in the given excerpts.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-137",
+            "19_irving_legend_of_sleepy_hollow-21",
+            "19_irving_legend_of_sleepy_hollow-227"
+          ]
+        }
+      }
+    },
+    {
+      "row": 30,
+      "question": "What should not be publicly accessible on servers?",
+      "reference": "Configuration files",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "not",
+          "r00024073"
+        ],
+        [
+          "publicly",
+          "r00161932"
+        ],
+        [
+          "accessible",
+          "a00183675"
+        ],
+        [
+          "servers",
+          "n04175147"
+        ]
+      ],
+      "wsd_ms": 473.5,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2902.1,
+          "answer_ms": 977.8,
+          "pipeline_ms": 4353.4,
+          "n_chunks": 3,
+          "context_chars": 896,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "Configuration files, default files, scripts, and other files stored locally on web and application servers that are not specifically intended to be presented to web users should not be publicly accessible on servers.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-177",
+            "17_owasp_top10_2004-176",
+            "17_owasp_top10_2004-174"
+          ]
+        }
+      }
+    },
+    {
+      "row": 31,
+      "question": "What section defines license obligations in ISO/IEC 5230:2020?",
+      "reference": "Section 3.5",
+      "source": "16_openchain_ai_sbom_compliance_guide_v1.docx",
+      "synsets": [
+        [
+          "section",
+          "n05867413"
+        ],
+        [
+          "defines",
+          "v00947077"
+        ],
+        [
+          "license",
+          "n06549661"
+        ],
+        [
+          "obligations",
+          "n01129920"
+        ],
+        [
+          "ISO/IEC",
+          "w13229421"
+        ]
+      ],
+      "wsd_ms": 1563.0,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2937.4,
+          "answer_ms": 1214.2,
+          "pipeline_ms": 5714.5,
+          "n_chunks": 3,
+          "context_chars": 863,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "Section 3.3.2 of ISO/IEC 5230:2020 defines license obligations.",
+          "chunk_ids": [
+            "16_openchain_ai_sbom_compliance_guide_v1-60",
+            "16_openchain_ai_sbom_compliance_guide_v1-56",
+            "16_openchain_ai_sbom_compliance_guide_v1-72"
+          ]
+        }
+      }
+    },
+    {
+      "row": 32,
+      "question": "Where do we hear of ghosts most often?",
+      "reference": "Long-established Dutch communities",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "Where",
+          "w31639681"
+        ],
+        [
+          "hear",
+          "v02169702"
+        ],
+        [
+          "ghosts",
+          "n09545976"
+        ],
+        [
+          "most",
+          "r00112009"
+        ],
+        [
+          "often",
+          "r00035058"
+        ]
+      ],
+      "wsd_ms": 1014.5,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3092.4,
+          "answer_ms": 1306.5,
+          "pipeline_ms": 5413.4,
+          "n_chunks": 3,
+          "context_chars": 755,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "Based on the provided context, ghosts are most often heard of in places like the great tree where Major Andr was taken, the dark glen at Raven Rock haunted by the woman in white, and the favorite haunts of the Headless Horseman. These locations are frequently associated with ghost stories and sightings.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-246",
+            "19_irving_legend_of_sleepy_hollow-239",
+            "19_irving_legend_of_sleepy_hollow-265"
+          ]
+        }
+      }
+    },
+    {
+      "row": 33,
+      "question": "What is the population density in America?",
+      "reference": "Hardly one man to a square thousand miles",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "population",
+          "n13779804"
+        ],
+        [
+          "density",
+          "n05088804"
+        ],
+        [
+          "America",
+          "n09044862"
+        ]
+      ],
+      "wsd_ms": 909.7,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 4434.7,
+          "answer_ms": 1311.7,
+          "pipeline_ms": 6656.2,
+          "n_chunks": 3,
+          "context_chars": 779,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The provided context does not contain any information about the population density in America.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-28",
+            "18_thoreau_civil_disobedience-284",
+            "18_thoreau_civil_disobedience-260"
+          ]
+        }
+      }
+    },
+    {
+      "row": 34,
+      "question": "What is the focus of the Open Web Application Security Project?",
+      "reference": "Improving web application security",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "focus",
+          "n05704694"
+        ],
+        [
+          "Open Web Application Security Project",
+          "w2123049"
+        ]
+      ],
+      "wsd_ms": 1833.5,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2774.0,
+          "answer_ms": 1630.1,
+          "pipeline_ms": 6237.6,
+          "n_chunks": 3,
+          "context_chars": 894,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": true,
+          "answer": "The focus of the Open Web Application Security Project (OWASP) is to identify and address the most critical web application security vulnerabilities by producing reusable components and tools to prevent issues like parameter tampering, providing accurate information about top application vulnerabilities, and raising awareness among developers, organizations, and executives to improve secure coding practices.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-144",
+            "17_owasp_top10_2004-39",
+            "17_owasp_top10_2004-27"
+          ]
+        }
+      }
+    },
+    {
+      "row": 35,
+      "question": "What is the name of the swamp near Ichabod?",
+      "reference": "Wiley’s Swamp",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "name",
+          "n06333653"
+        ],
+        [
+          "swamp",
+          "n09452395"
+        ],
+        [
+          "Ichabod",
+          "w3472254"
+        ]
+      ],
+      "wsd_ms": 696.6,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2346.5,
+          "answer_ms": 1611.3,
+          "pipeline_ms": 4654.4,
+          "n_chunks": 3,
+          "context_chars": 671,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The name of the swamp near Ichabod is Wiley’s Swamp.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-275",
+            "19_irving_legend_of_sleepy_hollow-247",
+            "19_irving_legend_of_sleepy_hollow-71"
+          ]
+        }
+      }
+    },
+    {
+      "row": 36,
+      "question": "What is the donation range important for IRS status?",
+      "reference": "$1 to $5,000",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "donation",
+          "n13270038"
+        ],
+        [
+          "range",
+          "v00658052"
+        ],
+        [
+          "important",
+          "a01275562"
+        ],
+        [
+          "IRS",
+          "n08143321"
+        ],
+        [
+          "status",
+          "n13945919"
+        ]
+      ],
+      "wsd_ms": 3040.7,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3380.6,
+          "answer_ms": 7239.2,
+          "pipeline_ms": 13660.5,
+          "n_chunks": 3,
+          "context_chars": 862,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The donation range important for maintaining tax exempt status with the IRS is from $1 to $5,000.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-336",
+            "18_thoreau_civil_disobedience-337",
+            "18_thoreau_civil_disobedience-330"
+          ]
+        }
+      }
+    },
+    {
+      "row": 37,
+      "question": "Who is the master of the favorite steed?",
+      "reference": "Hans Van Ripper",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "master",
+          "n10280130"
+        ],
+        [
+          "favorite",
+          "a01816376"
+        ],
+        [
+          "steed",
+          "n02378755"
+        ]
+      ],
+      "wsd_ms": 789.6,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2651.7,
+          "answer_ms": 1108.9,
+          "pipeline_ms": 4550.2,
+          "n_chunks": 3,
+          "context_chars": 628,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": true,
+          "answer": "The master of the favorite steed, Gunpowder, is Van Ripper.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-206",
+            "19_irving_legend_of_sleepy_hollow-207",
+            "19_irving_legend_of_sleepy_hollow-181"
+          ]
+        }
+      }
+    },
+    {
+      "row": 38,
+      "question": "What does the OWASP Top Ten list address?",
+      "reference": "Vulnerabilities that require immediate remediation",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "OWASP",
+          "w2123049"
+        ],
+        [
+          "Top Ten",
+          "w17941121"
+        ],
+        [
+          "list",
+          "n06481320"
+        ],
+        [
+          "address",
+          "n08491027"
+        ]
+      ],
+      "wsd_ms": 709.8,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3690.5,
+          "answer_ms": 2452.9,
+          "pipeline_ms": 6853.1,
+          "n_chunks": 3,
+          "context_chars": 892,
+          "hit": true,
+          "first_gold_rank": 3,
+          "rr": 0.3333333333333333,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The OWASP Top Ten list addresses the most critical web application vulnerabilities that require immediate remediation, helping developers understand how to write secure code and enabling executives to prioritize secure coding enforcement.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-39",
+            "17_owasp_top10_2004-33",
+            "17_owasp_top10_2004-59"
+          ]
+        }
+      }
+    },
+    {
+      "row": 39,
+      "question": "What does Ichabod hope to reach for safety?",
+      "reference": "The church bridge",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "Ichabod",
+          "w3472254"
+        ],
+        [
+          "hope",
+          "v01811441"
+        ],
+        [
+          "reach",
+          "v02526085"
+        ],
+        [
+          "safety",
+          "n00131090"
+        ]
+      ],
+      "wsd_ms": 1227.4,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3017.0,
+          "answer_ms": 3743.4,
+          "pipeline_ms": 7987.7,
+          "n_chunks": 3,
+          "context_chars": 698,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": true,
+          "answer": "Ichabod hopes to reach the bridge for safety.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-305",
+            "18_thoreau_civil_disobedience-273",
+            "19_irving_legend_of_sleepy_hollow-247"
+          ]
+        }
+      }
+    },
+    {
+      "row": 40,
+      "question": "Who is the preceptor of Sleepy Hollow?",
+      "reference": "Ichabod Crane",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "preceptor",
+          "n10464542"
+        ],
+        [
+          "Sleepy Hollow",
+          "w55601"
+        ]
+      ],
+      "wsd_ms": 631.8,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2990.6,
+          "answer_ms": 1016.2,
+          "pipeline_ms": 4638.6,
+          "n_chunks": 3,
+          "context_chars": 796,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The preceptor of Sleepy Hollow is the unfortunate pedagogue mentioned in the context.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-155",
+            "19_irving_legend_of_sleepy_hollow-332",
+            "19_irving_legend_of_sleepy_hollow-75"
+          ]
+        }
+      }
+    },
+    {
+      "row": 41,
+      "question": "What must you comply with for Project Gutenberg-tm use?",
+      "reference": "Requirements of paragraphs 1.E.1 through 1.E.7",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "comply",
+          "v02542280"
+        ],
+        [
+          "Project",
+          "n00795720"
+        ],
+        [
+          "use",
+          "n05149325"
+        ]
+      ],
+      "wsd_ms": 1031.0,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3416.2,
+          "answer_ms": 1676.6,
+          "pipeline_ms": 6123.8,
+          "n_chunks": 3,
+          "context_chars": 794,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": true,
+          "answer": "You must comply with all the terms of the Full Project Gutenberg-tm License available with the file or online at www.gutenberg.org/license. This includes complying with all other terms of the agreement for free distribution of Project Gutenberg-tm works.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-263",
+            "18_thoreau_civil_disobedience-259",
+            "18_thoreau_civil_disobedience-303"
+          ]
+        }
+      }
+    },
+    {
+      "row": 42,
+      "question": "What kind of heart did Ichabod Crane have?",
+      "reference": "Soft and foolish heart",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "kind",
+          "n05839024"
+        ],
+        [
+          "heart",
+          "n05919263"
+        ],
+        [
+          "Ichabod Crane",
+          "w601316"
+        ]
+      ],
+      "wsd_ms": 805.3,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3949.5,
+          "answer_ms": 980.9,
+          "pipeline_ms": 5735.7,
+          "n_chunks": 3,
+          "context_chars": 783,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "Ichabod Crane had a kind and thankful heart that expanded as he ate well.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-215",
+            "19_irving_legend_of_sleepy_hollow-60",
+            "19_irving_legend_of_sleepy_hollow-154"
+          ]
+        }
+      }
+    },
+    {
+      "row": 43,
+      "question": "What is the royalty fee percentage for Project Gutenberg works?",
+      "reference": "20%",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "royalty",
+          "n13257982"
+        ],
+        [
+          "fee",
+          "n13320168"
+        ],
+        [
+          "percentage",
+          "n13817526"
+        ],
+        [
+          "Project Gutenberg",
+          "w23301"
+        ],
+        [
+          "works",
+          "v02536557"
+        ]
+      ],
+      "wsd_ms": 1116.5,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3454.4,
+          "answer_ms": 1739.9,
+          "pipeline_ms": 6310.9,
+          "n_chunks": 3,
+          "context_chars": 823,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The royalty fee percentage for Project Gutenberg works is 20% of the gross profits derived from the use of Project Gutenberg works.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-296",
+            "18_thoreau_civil_disobedience-297",
+            "18_thoreau_civil_disobedience-298"
+          ]
+        }
+      }
+    },
+    {
+      "row": 44,
+      "question": "What committee is associated with OASIS?",
+      "reference": "WAS technical committee",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "committee",
+          "n08324514"
+        ],
+        [
+          "associated",
+          "v00713167"
+        ],
+        [
+          "OASIS",
+          "n08506496"
+        ]
+      ],
+      "wsd_ms": 425.5,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3162.2,
+          "answer_ms": 1036.9,
+          "pipeline_ms": 4624.6,
+          "n_chunks": 3,
+          "context_chars": 699,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": true,
+          "answer": "The Web Application Security Technical Committee (WAS TC) is associated with OASIS.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-64",
+            "17_owasp_top10_2004-65",
+            "17_owasp_top10_2004-91"
+          ]
+        }
+      }
+    },
+    {
+      "row": 45,
+      "question": "What is the original compact regarding slavery in America?",
+      "reference": "Let it stand",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "original",
+          "a01012503"
+        ],
+        [
+          "compact",
+          "n06772260"
+        ],
+        [
+          "slavery",
+          "n00415442"
+        ],
+        [
+          "America",
+          "n09044862"
+        ]
+      ],
+      "wsd_ms": 1155.6,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3843.4,
+          "answer_ms": 1348.3,
+          "pipeline_ms": 6347.3,
+          "n_chunks": 3,
+          "context_chars": 756,
+          "hit": true,
+          "first_gold_rank": 3,
+          "rr": 0.3333333333333333,
+          "ans_in_ctx": true,
+          "correct": false,
+          "answer": "The original compact regarding slavery in America, as referenced in the context, is the Constitution's sanction or allowance of slavery as part of the original agreement or foundation of the Union. This means that slavery was included and accepted within the initial framework or \"compact\" of the United States government.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-118",
+            "18_thoreau_civil_disobedience-7",
+            "18_thoreau_civil_disobedience-233"
+          ]
+        }
+      }
+    },
+    {
+      "row": 46,
+      "question": "What happened to Ichabod at breakfast?",
+      "reference": "Ichabod did not make his appearance",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "happened",
+          "v00339934"
+        ],
+        [
+          "Ichabod",
+          "w3472254"
+        ],
+        [
+          "breakfast",
+          "n07574602"
+        ]
+      ],
+      "wsd_ms": 501.8,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2811.1,
+          "answer_ms": 1169.7,
+          "pipeline_ms": 4482.6,
+          "n_chunks": 3,
+          "context_chars": 753,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "Ichabod did not make his appearance at breakfast.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-310",
+            "19_irving_legend_of_sleepy_hollow-252",
+            "18_thoreau_civil_disobedience-186"
+          ]
+        }
+      }
+    },
+    {
+      "row": 47,
+      "question": "What is the term associated with A8?",
+      "reference": "Insecure Storage",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "term",
+          "n06303888"
+        ],
+        [
+          "associated",
+          "v00713167"
+        ],
+        [
+          "A8",
+          "w338252"
+        ]
+      ],
+      "wsd_ms": 1011.5,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3002.8,
+          "answer_ms": 993.4,
+          "pipeline_ms": 5007.7,
+          "n_chunks": 3,
+          "context_chars": 708,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The term associated with A8 is \"Insecure Storage.\"",
+          "chunk_ids": [
+            "17_owasp_top10_2004-103",
+            "17_owasp_top10_2004-102",
+            "17_owasp_top10_2004-49"
+          ]
+        }
+      }
+    },
+    {
+      "row": 48,
+      "question": "What does OWASP focus on in its list?",
+      "reference": "Common weaknesses in applications code",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "OWASP",
+          "w2123049"
+        ],
+        [
+          "focus",
+          "v00722232"
+        ],
+        [
+          "list",
+          "n06481320"
+        ]
+      ],
+      "wsd_ms": 696.7,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3086.1,
+          "answer_ms": 1052.2,
+          "pipeline_ms": 4834.9,
+          "n_chunks": 3,
+          "context_chars": 906,
+          "hit": true,
+          "first_gold_rank": 2,
+          "rr": 0.5,
+          "ans_in_ctx": false,
+          "correct": true,
+          "answer": "OWASP focuses on identifying the most critical application code flaws and common weaknesses in custom web applications, providing a consensus view of significant and likely vulnerabilities to help organizations prioritize and apply effective defensive measures.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-63",
+            "17_owasp_top10_2004-27",
+            "17_owasp_top10_2004-10"
+          ]
+        }
+      }
+    },
+    {
+      "row": 49,
+      "question": "What did Brom teach his dog to do?",
+      "reference": "Whine in the most ludicrous manner",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "Brom",
+          "w1063354"
+        ],
+        [
+          "teach",
+          "v00273734"
+        ],
+        [
+          "dog",
+          "n02084071"
+        ]
+      ],
+      "wsd_ms": 629.0,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2727.9,
+          "answer_ms": 885.8,
+          "pipeline_ms": 4242.8,
+          "n_chunks": 3,
+          "context_chars": 630,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The provided context does not include any information about what Brom taught his dog to do.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-36",
+            "19_irving_legend_of_sleepy_hollow-159",
+            "19_irving_legend_of_sleepy_hollow-156"
+          ]
+        }
+      }
+    },
+    {
+      "row": 50,
+      "question": "What are the inhabitants of Sleepy Hollow descendants of?",
+      "reference": "Original Dutch settlers",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "inhabitants",
+          "n09620078"
+        ],
+        [
+          "Sleepy Hollow",
+          "w55601"
+        ],
+        [
+          "descendants",
+          "n10006511"
+        ]
+      ],
+      "wsd_ms": 492.2,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3949.0,
+          "answer_ms": 1074.2,
+          "pipeline_ms": 5515.4,
+          "n_chunks": 3,
+          "context_chars": 723,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": true,
+          "answer": "The inhabitants of Sleepy Hollow are descendants of the original settlers of the valley, as indicated by the phrase \"the peculiar character of its inhabitants, who are descendants.\"",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-12",
+            "19_irving_legend_of_sleepy_hollow-25",
+            "19_irving_legend_of_sleepy_hollow-237"
+          ]
+        }
+      }
+    },
+    {
+      "row": 51,
+      "question": "What is Jeffrey R. Williams' role?",
+      "reference": "CEO of Aspect Security",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "Jeffrey",
+          "w611455"
+        ],
+        [
+          "R",
+          "n13646031"
+        ],
+        [
+          "role",
+          "n05149325"
+        ]
+      ],
+      "wsd_ms": 607.6,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3243.5,
+          "answer_ms": 1261.4,
+          "pipeline_ms": 5112.6,
+          "n_chunks": 3,
+          "context_chars": 673,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": true,
+          "answer": "Jeffrey R. Williams is the CEO of Aspect Security and the OWASP Top Ten Project Leader.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-20",
+            "17_owasp_top10_2004-153",
+            "17_owasp_top10_2004-191"
+          ]
+        }
+      }
+    },
+    {
+      "row": 52,
+      "question": "What is the status of Project Gutenberg's trademark?",
+      "reference": "Registered trademark",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "status",
+          "n13945919"
+        ],
+        [
+          "Project",
+          "n00795720"
+        ],
+        [
+          "trademark",
+          "n04732543"
+        ]
+      ],
+      "wsd_ms": 637.3,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3183.0,
+          "answer_ms": 1387.9,
+          "pipeline_ms": 5208.2,
+          "n_chunks": 3,
+          "context_chars": 863,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "Based on the provided context, Project Gutenberg's trademark is referred to as \"Project Gutenberg-tm,\" indicating that it is a trademark. However, the Foundation makes no representations concerning the copyright status of any work outside the United States. The context does not provide further specific details about the trademark's registration status or legal protections beyond indicating it as a trademark.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-278",
+            "18_thoreau_civil_disobedience-336",
+            "18_thoreau_civil_disobedience-330"
+          ]
+        }
+      }
+    },
+    {
+      "row": 53,
+      "question": "What is the email for feedback on the OWASP Top Ten?",
+      "reference": "topten@owasp.org",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "email",
+          "n06279326"
+        ],
+        [
+          "feedback",
+          "n13479380"
+        ],
+        [
+          "OWASP",
+          "w2123049"
+        ],
+        [
+          "Top Ten",
+          "w17941121"
+        ]
+      ],
+      "wsd_ms": 610.2,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3416.8,
+          "answer_ms": 1318.7,
+          "pipeline_ms": 5345.6,
+          "n_chunks": 3,
+          "context_chars": 772,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The email for feedback on the OWASP Top Ten is topten@owasp.org.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-88",
+            "17_owasp_top10_2004-71",
+            "17_owasp_top10_2004-39"
+          ]
+        }
+      }
+    },
+    {
+      "row": 54,
+      "question": "Who do some consider themselves children of?",
+      "reference": "Washington and Franklin",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "consider",
+          "v00690614"
+        ],
+        [
+          "children",
+          "n09918248"
+        ]
+      ],
+      "wsd_ms": 764.3,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2713.0,
+          "answer_ms": 1021.4,
+          "pipeline_ms": 4498.6,
+          "n_chunks": 3,
+          "context_chars": 706,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The provided context does not explicitly state who some consider themselves children of. Therefore, based on the given excerpts, it is not possible to determine who some consider themselves children of.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-88",
+            "19_irving_legend_of_sleepy_hollow-271",
+            "18_thoreau_civil_disobedience-183"
+          ]
+        }
+      }
+    },
+    {
+      "row": 55,
+      "question": "What should never be included in the URL?",
+      "reference": "Session IDs",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "never",
+          "r00020759"
+        ],
+        [
+          "included",
+          "v02632940"
+        ],
+        [
+          "URL",
+          "n06358747"
+        ]
+      ],
+      "wsd_ms": 589.9,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3332.2,
+          "answer_ms": 1180.5,
+          "pipeline_ms": 5102.5,
+          "n_chunks": 3,
+          "context_chars": 799,
+          "hit": true,
+          "first_gold_rank": 3,
+          "rr": 0.3333333333333333,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "Session IDs should never be included in the URL.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-347",
+            "17_owasp_top10_2004-115",
+            "17_owasp_top10_2004-221"
+          ]
+        }
+      }
+    },
+    {
+      "row": 56,
+      "question": "What can an attacker hijack if session tokens are unprotected?",
+      "reference": "An active session",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "attacker",
+          "n10105733"
+        ],
+        [
+          "hijack",
+          "v01471825"
+        ],
+        [
+          "if",
+          "w155571"
+        ],
+        [
+          "session",
+          "n07145508"
+        ],
+        [
+          "tokens",
+          "n06795746"
+        ],
+        [
+          "unprotected",
+          "a01886407"
+        ]
+      ],
+      "wsd_ms": 887.1,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3891.0,
+          "answer_ms": 1120.5,
+          "pipeline_ms": 5898.6,
+          "n_chunks": 3,
+          "context_chars": 868,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": true,
+          "answer": "An attacker can hijack a user’s session and assume their identity if session tokens are unprotected.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-197",
+            "17_owasp_top10_2004-171",
+            "17_owasp_top10_2004-110"
+          ]
+        }
+      }
+    },
+    {
+      "row": 57,
+      "question": "Where is the convention for candidate selection held?",
+      "reference": "Baltimore",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "Where",
+          "w31639681"
+        ],
+        [
+          "convention",
+          "n08309086"
+        ],
+        [
+          "candidate",
+          "n09889691"
+        ],
+        [
+          "selection",
+          "n00161243"
+        ],
+        [
+          "held",
+          "v02302220"
+        ]
+      ],
+      "wsd_ms": 865.7,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3037.8,
+          "answer_ms": 878.7,
+          "pipeline_ms": 4782.3,
+          "n_chunks": 3,
+          "context_chars": 748,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The convention for candidate selection is to be held at Baltimore, or elsewhere.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-70",
+            "18_thoreau_civil_disobedience-72",
+            "18_thoreau_civil_disobedience-73"
+          ]
+        }
+      }
+    },
+    {
+      "row": 58,
+      "question": "What does the SANS/FBI Top Twenty List focus on?",
+      "reference": "Flaws in widely used network products",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "Top",
+          "n08663860"
+        ],
+        [
+          "Twenty",
+          "n13748128"
+        ],
+        [
+          "List",
+          "n06481320"
+        ],
+        [
+          "focus",
+          "n08572335"
+        ]
+      ],
+      "wsd_ms": 654.0,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3186.2,
+          "answer_ms": 1319.0,
+          "pipeline_ms": 5159.2,
+          "n_chunks": 3,
+          "context_chars": 895,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": true,
+          "answer": "The SANS/FBI Top Twenty List focuses on flaws in particular widely used network and infrastructure products.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-63",
+            "17_owasp_top10_2004-44",
+            "17_owasp_top10_2004-48"
+          ]
+        }
+      }
+    },
+    {
+      "row": 59,
+      "question": "Who was the architect of the schoolhouse?",
+      "reference": "Yost Van Houten",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "architect",
+          "n09805475"
+        ],
+        [
+          "schoolhouse",
+          "n04146050"
+        ]
+      ],
+      "wsd_ms": 372.9,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3177.4,
+          "answer_ms": 1060.7,
+          "pipeline_ms": 4611.0,
+          "n_chunks": 3,
+          "context_chars": 710,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The architect of the schoolhouse was Yost Van Houten.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-39",
+            "19_irving_legend_of_sleepy_hollow-40",
+            "19_irving_legend_of_sleepy_hollow-217"
+          ]
+        }
+      }
+    },
+    {
+      "row": 60,
+      "question": "What is Balt Van Tassel's relationship to his daughter?",
+      "reference": "He loved his daughter better even than his pipe",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "Balt",
+          "w4540"
+        ],
+        [
+          "Van",
+          "n08465558"
+        ],
+        [
+          "relationship",
+          "n13812607"
+        ],
+        [
+          "daughter",
+          "n09992837"
+        ]
+      ],
+      "wsd_ms": 470.6,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3572.8,
+          "answer_ms": 1184.9,
+          "pipeline_ms": 5228.3,
+          "n_chunks": 3,
+          "context_chars": 683,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": true,
+          "answer": "Balt Van Tassel is the father of the peerless daughter mentioned in the context. He is described as an easy indulgent parent who does not interfere meddlesomely in the affairs of lovers.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-145",
+            "19_irving_legend_of_sleepy_hollow-121",
+            "19_irving_legend_of_sleepy_hollow-148"
+          ]
+        }
+      }
+    },
+    {
+      "row": 61,
+      "question": "What is the email address for OWASP Top Ten comments?",
+      "reference": "topten@owasp.org",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "email",
+          "n06279326"
+        ],
+        [
+          "address",
+          "n06356515"
+        ],
+        [
+          "OWASP",
+          "w2123049"
+        ],
+        [
+          "Top",
+          "n08663860"
+        ],
+        [
+          "Ten",
+          "a02187296"
+        ],
+        [
+          "comments",
+          "n06762711"
+        ]
+      ],
+      "wsd_ms": 878.8,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 4142.1,
+          "answer_ms": 1519.3,
+          "pipeline_ms": 6540.2,
+          "n_chunks": 3,
+          "context_chars": 727,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The email address for OWASP Top Ten comments is topten@owasp.org.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-71",
+            "17_owasp_top10_2004-3",
+            "16_openchain_ai_sbom_compliance_guide_v1-65"
+          ]
+        }
+      }
+    },
+    {
+      "row": 62,
+      "question": "Where did the old farmer visit several years later?",
+      "reference": "New York",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "Where",
+          "w31639681"
+        ],
+        [
+          "old",
+          "a01643620"
+        ],
+        [
+          "farmer",
+          "n10966665"
+        ],
+        [
+          "visit",
+          "n01233156"
+        ],
+        [
+          "years",
+          "n15203791"
+        ],
+        [
+          "later",
+          "r00061203"
+        ]
+      ],
+      "wsd_ms": 666.6,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3675.8,
+          "answer_ms": 1099.4,
+          "pipeline_ms": 5441.9,
+          "n_chunks": 3,
+          "context_chars": 697,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The old farmer visited New York several years later.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-324",
+            "19_irving_legend_of_sleepy_hollow-76",
+            "19_irving_legend_of_sleepy_hollow-220"
+          ]
+        }
+      }
+    },
+    {
+      "row": 63,
+      "question": "What is the URL for Infosecurity Magazine's June 2002 issue?",
+      "reference": "http://www.infosecuritymag.com/2002/jun/insecurity.shtml",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "URL",
+          "n06358747"
+        ],
+        [
+          "Infosecurity",
+          "w15036"
+        ],
+        [
+          "June 2002",
+          "w35502"
+        ],
+        [
+          "issue",
+          "n05814650"
+        ]
+      ],
+      "wsd_ms": 815.5,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2491.2,
+          "answer_ms": 981.2,
+          "pipeline_ms": 4288.0,
+          "n_chunks": 3,
+          "context_chars": 643,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The provided context does not include any information about the URL for Infosecurity Magazine's June 2002 issue. Therefore, based on the given information, the URL cannot be determined.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-17",
+            "17_owasp_top10_2004-56",
+            "17_owasp_top10_2004-6"
+          ]
+        }
+      }
+    },
+    {
+      "row": 64,
+      "question": "What nickname was Abraham universally known by?",
+      "reference": "BROM BONES",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "nickname",
+          "n06337693"
+        ],
+        [
+          "Abraham",
+          "n10807487"
+        ],
+        [
+          "universally",
+          "r00195342"
+        ],
+        [
+          "known",
+          "v00594337"
+        ]
+      ],
+      "wsd_ms": 604.2,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3961.4,
+          "answer_ms": 986.3,
+          "pipeline_ms": 5551.9,
+          "n_chunks": 3,
+          "context_chars": 833,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "Abraham was universally known by the nickname \"Brom Bones.\"",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-127",
+            "19_irving_legend_of_sleepy_hollow-129",
+            "19_irving_legend_of_sleepy_hollow-24"
+          ]
+        }
+      }
+    },
+    {
+      "row": 65,
+      "question": "What is the title of the OWASP guide mentioned?",
+      "reference": "OWASP Guide to Building Secure Web Applications",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "title",
+          "n06345993"
+        ],
+        [
+          "OWASP",
+          "w2123049"
+        ],
+        [
+          "guide",
+          "n06422740"
+        ],
+        [
+          "mentioned",
+          "v01020005"
+        ]
+      ],
+      "wsd_ms": 1475.1,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2702.8,
+          "answer_ms": 1187.7,
+          "pipeline_ms": 5365.7,
+          "n_chunks": 3,
+          "context_chars": 750,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The title of the OWASP guide mentioned is \"OWASP Guide to Building Secure Web Applications and Web Services.\"",
+          "chunk_ids": [
+            "17_owasp_top10_2004-130",
+            "17_owasp_top10_2004-156",
+            "17_owasp_top10_2004-199"
+          ]
+        }
+      }
+    },
+    {
+      "row": 66,
+      "question": "What are stronger methods of authentication than passwords?",
+      "reference": "Biometrics",
+      "source": "17_owasp_top10_2004.docx",
+      "synsets": [
+        [
+          "stronger",
+          "a02321009"
+        ],
+        [
+          "methods",
+          "n05660268"
+        ],
+        [
+          "authentication",
+          "n06855035"
+        ],
+        [
+          "than",
+          "w503184"
+        ],
+        [
+          "passwords",
+          "n06674188"
+        ]
+      ],
+      "wsd_ms": 902.5,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3826.1,
+          "answer_ms": 1375.0,
+          "pipeline_ms": 6103.6,
+          "n_chunks": 3,
+          "context_chars": 881,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "Stronger methods of authentication than passwords include software and hardware based cryptographic tokens and biometrics.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-191",
+            "17_owasp_top10_2004-188",
+            "17_owasp_top10_2004-107"
+          ]
+        }
+      }
+    },
+    {
+      "row": 67,
+      "question": "Who was beset by Satan in divers shapes?",
+      "reference": "He",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "beset",
+          "v01789514"
+        ],
+        [
+          "Satan",
+          "n09543353"
+        ],
+        [
+          "divers",
+          "n02049088"
+        ],
+        [
+          "shapes",
+          "n05217168"
+        ]
+      ],
+      "wsd_ms": 778.7,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2585.7,
+          "answer_ms": 1352.2,
+          "pipeline_ms": 4716.6,
+          "n_chunks": 3,
+          "context_chars": 698,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "He (Ichabod) had been more than once beset by Satan in divers shapes.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-85",
+            "19_irving_legend_of_sleepy_hollow-182",
+            "19_irving_legend_of_sleepy_hollow-81"
+          ]
+        }
+      }
+    },
+    {
+      "row": 68,
+      "question": "What is the name of Ichabod's formidable rival?",
+      "reference": "Abraham",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "name",
+          "n06333653"
+        ],
+        [
+          "formidable",
+          "a01284836"
+        ],
+        [
+          "rival",
+          "n10533013"
+        ]
+      ],
+      "wsd_ms": 605.6,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3347.1,
+          "answer_ms": 1274.9,
+          "pipeline_ms": 5227.5,
+          "n_chunks": 3,
+          "context_chars": 710,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": false,
+          "answer": "The name of Ichabod's formidable rival is Brom Van Brunt.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-127",
+            "19_irving_legend_of_sleepy_hollow-140",
+            "19_irving_legend_of_sleepy_hollow-160"
+          ]
+        }
+      }
+    },
+    {
+      "row": 69,
+      "question": "How many years has the New Testament been written?",
+      "reference": "Eighteen hundred years",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "How",
+          "w3636420"
+        ],
+        [
+          "years",
+          "n15203791"
+        ],
+        [
+          "New Testament",
+          "n06453849"
+        ],
+        [
+          "written",
+          "v01698271"
+        ]
+      ],
+      "wsd_ms": 1179.4,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3485.3,
+          "answer_ms": 1127.2,
+          "pipeline_ms": 5791.9,
+          "n_chunks": 3,
+          "context_chars": 735,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The New Testament has been written for eighteen hundred years.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-244",
+            "18_thoreau_civil_disobedience-155",
+            "18_thoreau_civil_disobedience-180"
+          ]
+        }
+      }
+    },
+    {
+      "row": 70,
+      "question": "Who is the blessed patron of the dance?",
+      "reference": "St. Vitus",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "blessed",
+          "a00670741"
+        ],
+        [
+          "patron",
+          "n10407726"
+        ],
+        [
+          "dance",
+          "n00428270"
+        ]
+      ],
+      "wsd_ms": 666.0,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2477.7,
+          "answer_ms": 1628.2,
+          "pipeline_ms": 4771.9,
+          "n_chunks": 3,
+          "context_chars": 816,
+          "hit": true,
+          "first_gold_rank": 2,
+          "rr": 0.5,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The blessed patron of the dance is the lady of Ichabod's heart, who was his partner in the dance and smiled graciously in reply to his amorous oglings.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-52",
+            "19_irving_legend_of_sleepy_hollow-225",
+            "19_irving_legend_of_sleepy_hollow-226"
+          ]
+        }
+      }
+    },
+    {
+      "row": 71,
+      "question": "How often does the author meet the American government?",
+      "reference": "Once a year",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "How",
+          "w27863194"
+        ],
+        [
+          "often",
+          "r00035058"
+        ],
+        [
+          "author",
+          "n10794014"
+        ],
+        [
+          "meet",
+          "v02428924"
+        ],
+        [
+          "American",
+          "a02927512"
+        ],
+        [
+          "government",
+          "n08050678"
+        ]
+      ],
+      "wsd_ms": 1083.3,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 4319.3,
+          "answer_ms": 1758.8,
+          "pipeline_ms": 7161.4,
+          "n_chunks": 3,
+          "context_chars": 775,
+          "hit": true,
+          "first_gold_rank": 2,
+          "rr": 0.5,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The author meets the American government directly and face to face.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-42",
+            "18_thoreau_civil_disobedience-111",
+            "18_thoreau_civil_disobedience-219"
+          ]
+        }
+      }
+    },
+    {
+      "row": 72,
+      "question": "What kind of creature was Ichabod Crane?",
+      "reference": "A kind and thankful creature",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "kind",
+          "n05839024"
+        ],
+        [
+          "creature",
+          "n00015388"
+        ],
+        [
+          "Ichabod Crane",
+          "w601316"
+        ]
+      ],
+      "wsd_ms": 952.5,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3247.6,
+          "answer_ms": 1668.9,
+          "pipeline_ms": 5869.0,
+          "n_chunks": 3,
+          "context_chars": 769,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "Ichabod Crane was a kind and thankful creature, whose heart expanded as he ate well.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-215",
+            "18_thoreau_civil_disobedience-214",
+            "18_thoreau_civil_disobedience-208"
+          ]
+        }
+      }
+    },
+    {
+      "row": 73,
+      "question": "What tax status was granted by the Internal Revenue Service?",
+      "reference": "Tax exempt status",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "tax",
+          "n13308999"
+        ],
+        [
+          "status",
+          "n13945919"
+        ],
+        [
+          "granted",
+          "v02317094"
+        ],
+        [
+          "Internal Revenue Service",
+          "n08143321"
+        ]
+      ],
+      "wsd_ms": 1007.7,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3270.7,
+          "answer_ms": 1031.2,
+          "pipeline_ms": 5309.6,
+          "n_chunks": 3,
+          "context_chars": 862,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The Internal Revenue Service granted 501(c)(3) tax exempt status.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-330",
+            "18_thoreau_civil_disobedience-336",
+            "18_thoreau_civil_disobedience-337"
+          ]
+        }
+      }
+    },
+    {
+      "row": 74,
+      "question": "What body of water is mentioned near Tarry Town?",
+      "reference": "The Tappan Zee",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "body",
+          "n05216365"
+        ],
+        [
+          "water",
+          "n14845743"
+        ],
+        [
+          "mentioned",
+          "v01020005"
+        ],
+        [
+          "Tarry",
+          "a00054364"
+        ],
+        [
+          "Town",
+          "n08665504"
+        ]
+      ],
+      "wsd_ms": 1313.0,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2945.3,
+          "answer_ms": 1149.0,
+          "pipeline_ms": 5407.3,
+          "n_chunks": 3,
+          "context_chars": 719,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The provided context does not mention any body of water near Tarry Town.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-6",
+            "19_irving_legend_of_sleepy_hollow-5",
+            "18_thoreau_civil_disobedience-185"
+          ]
+        }
+      }
+    },
+    {
+      "row": 75,
+      "question": "What must be removed to copy Project Gutenberg works?",
+      "reference": "All references to Project Gutenberg",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "removed",
+          "v00173338"
+        ],
+        [
+          "copy",
+          "v01734929"
+        ],
+        [
+          "Project Gutenberg",
+          "w23301"
+        ],
+        [
+          "works",
+          "v02536557"
+        ]
+      ],
+      "wsd_ms": 1293.5,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2825.7,
+          "answer_ms": 1048.3,
+          "pipeline_ms": 5167.5,
+          "n_chunks": 3,
+          "context_chars": 867,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "To copy Project Gutenberg works, all references to Project Gutenberg must be removed.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-273",
+            "18_thoreau_civil_disobedience-278",
+            "18_thoreau_civil_disobedience-288"
+          ]
+        }
+      }
+    },
+    {
+      "row": 76,
+      "question": "What name do Dutch navigators invoke when crossing?",
+      "reference": "St. Nicholas",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "name",
+          "n06333653"
+        ],
+        [
+          "Dutch",
+          "a02960686"
+        ],
+        [
+          "navigators",
+          "n10347883"
+        ],
+        [
+          "invoke",
+          "v01024864"
+        ],
+        [
+          "when",
+          "w962833"
+        ],
+        [
+          "crossing",
+          "v01691798"
+        ]
+      ],
+      "wsd_ms": 789.4,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2964.7,
+          "answer_ms": 1448.4,
+          "pipeline_ms": 5202.4,
+          "n_chunks": 3,
+          "context_chars": 757,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The Dutch navigators invoke the protection of St. Nicholas when crossing.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-4",
+            "19_irving_legend_of_sleepy_hollow-3",
+            "19_irving_legend_of_sleepy_hollow-24"
+          ]
+        }
+      }
+    },
+    {
+      "row": 77,
+      "question": "What is the limited right of replacement or refund duration?",
+      "reference": "90 days of receiving it",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "limited",
+          "a02002470"
+        ],
+        [
+          "right",
+          "n05174653"
+        ],
+        [
+          "replacement",
+          "n00197772"
+        ],
+        [
+          "or",
+          "n09133010"
+        ],
+        [
+          "refund",
+          "v02284951"
+        ],
+        [
+          "duration",
+          "n05051249"
+        ]
+      ],
+      "wsd_ms": 771.1,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3059.4,
+          "answer_ms": 1131.9,
+          "pipeline_ms": 4962.4,
+          "n_chunks": 3,
+          "context_chars": 815,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The provided context does not specify the duration of the limited right of replacement or refund.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-312",
+            "18_thoreau_civil_disobedience-317",
+            "19_irving_legend_of_sleepy_hollow-252"
+          ]
+        }
+      }
+    },
+    {
+      "row": 78,
+      "question": "What hills can be seen from the Hudson?",
+      "reference": "Blue hills",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "hills",
+          "n09303008"
+        ],
+        [
+          "seen",
+          "v02129289"
+        ],
+        [
+          "Hudson",
+          "n09306840"
+        ]
+      ],
+      "wsd_ms": 4849.0,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2714.1,
+          "answer_ms": 1136.5,
+          "pipeline_ms": 8699.6,
+          "n_chunks": 3,
+          "context_chars": 675,
+          "hit": true,
+          "first_gold_rank": 2,
+          "rr": 0.5,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The blue hills of the Hudson can be seen from the Hudson.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-197",
+            "19_irving_legend_of_sleepy_hollow-243",
+            "19_irving_legend_of_sleepy_hollow-253"
+          ]
+        }
+      }
+    },
+    {
+      "row": 79,
+      "question": "What geographical feature rises above Tarry Town?",
+      "reference": "Lofty hills",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "geographical",
+          "a01470496"
+        ],
+        [
+          "feature",
+          "n05849789"
+        ],
+        [
+          "rises",
+          "v02624263"
+        ],
+        [
+          "Tarry",
+          "v02639075"
+        ],
+        [
+          "Town",
+          "n08665504"
+        ]
+      ],
+      "wsd_ms": 1083.4,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2477.2,
+          "answer_ms": 1546.3,
+          "pipeline_ms": 5106.9,
+          "n_chunks": 3,
+          "context_chars": 614,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The provided context does not contain information about any geographical feature rising above Tarry Town. Therefore, based on the given text, the answer cannot be determined.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-32",
+            "16_openchain_ai_sbom_compliance_guide_v1-21",
+            "16_openchain_ai_sbom_compliance_guide_v1-22"
+          ]
+        }
+      }
+    },
+    {
+      "row": 80,
+      "question": "What is the name of the main character?",
+      "reference": "Ichabod",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "name",
+          "n06333653"
+        ],
+        [
+          "main",
+          "a01277426"
+        ],
+        [
+          "character",
+          "n05849284"
+        ]
+      ],
+      "wsd_ms": 904.8,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3067.1,
+          "answer_ms": 1099.7,
+          "pipeline_ms": 5071.6,
+          "n_chunks": 3,
+          "context_chars": 717,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The provided context does not mention the name of any main character.",
+          "chunk_ids": [
+            "17_owasp_top10_2004-8",
+            "17_owasp_top10_2004-184",
+            "16_openchain_ai_sbom_compliance_guide_v1-10"
+          ]
+        }
+      }
+    },
+    {
+      "row": 81,
+      "question": "What type of animal is Ichabod riding?",
+      "reference": "A black horse",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "type",
+          "n08111419"
+        ],
+        [
+          "animal",
+          "n00015388"
+        ],
+        [
+          "Ichabod",
+          "w3472254"
+        ],
+        [
+          "riding",
+          "n00450335"
+        ]
+      ],
+      "wsd_ms": 751.2,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3429.2,
+          "answer_ms": 1029.0,
+          "pipeline_ms": 5209.4,
+          "n_chunks": 3,
+          "context_chars": 793,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": true,
+          "answer": "Based on the context provided, Ichabod is riding a horse.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-182",
+            "19_irving_legend_of_sleepy_hollow-280",
+            "17_owasp_top10_2004-64"
+          ]
+        }
+      }
+    },
+    {
+      "row": 82,
+      "question": "Who has not made a demand on Thoreau since?",
+      "reference": "The State",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "not",
+          "r00024073"
+        ],
+        [
+          "made",
+          "v01645601"
+        ],
+        [
+          "demand",
+          "n05892651"
+        ],
+        [
+          "Thoreau",
+          "n11340992"
+        ]
+      ],
+      "wsd_ms": 825.6,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2472.0,
+          "answer_ms": 1505.5,
+          "pipeline_ms": 4803.1,
+          "n_chunks": 3,
+          "context_chars": 727,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The provided context does not contain any information about Thoreau or anyone making a demand on him. Therefore, based on the given text, it is not possible to determine who has not made a demand on Thoreau since.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-86",
+            "18_thoreau_civil_disobedience-339",
+            "16_openchain_ai_sbom_compliance_guide_v1-15"
+          ]
+        }
+      }
+    },
+    {
+      "row": 83,
+      "question": "What is the name of the farmer Ichabod borrowed a horse from?",
+      "reference": "Hans Van Ripper",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "name",
+          "n06333653"
+        ],
+        [
+          "farmer",
+          "n10078806"
+        ],
+        [
+          "Ichabod",
+          "w3472254"
+        ],
+        [
+          "borrowed",
+          "v02346724"
+        ],
+        [
+          "horse",
+          "n02374451"
+        ]
+      ],
+      "wsd_ms": 987.7,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2582.1,
+          "answer_ms": 1263.0,
+          "pipeline_ms": 4832.7,
+          "n_chunks": 3,
+          "context_chars": 625,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The name of the farmer Ichabod borrowed a horse from is not provided in the given context.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-177",
+            "19_irving_legend_of_sleepy_hollow-310",
+            "19_irving_legend_of_sleepy_hollow-291"
+          ]
+        }
+      }
+    },
+    {
+      "row": 84,
+      "question": "What is a good subject of the Turkish government?",
+      "reference": "A man may grow rich",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "good",
+          "a02226162"
+        ],
+        [
+          "subject",
+          "n05814291"
+        ],
+        [
+          "Turkish",
+          "a03023852"
+        ],
+        [
+          "government",
+          "n05663671"
+        ]
+      ],
+      "wsd_ms": 856.2,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3283.3,
+          "answer_ms": 1112.9,
+          "pipeline_ms": 5252.4,
+          "n_chunks": 3,
+          "context_chars": 749,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": false,
+          "correct": true,
+          "answer": "A good subject of the Turkish government is a man who may grow rich in Turkey and will be in all respects a good subject of the Turkish government.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-146",
+            "18_thoreau_civil_disobedience-218",
+            "18_thoreau_civil_disobedience-217"
+          ]
+        }
+      }
+    },
+    {
+      "row": 85,
+      "question": "What caught Ichabod's sensitive ear?",
+      "reference": "A plashy tramp by the side of the bridge",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "caught",
+          "v02117955"
+        ],
+        [
+          "sensitive",
+          "a02103481"
+        ],
+        [
+          "ear",
+          "n05320899"
+        ]
+      ],
+      "wsd_ms": 506.5,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3403.6,
+          "answer_ms": 1314.2,
+          "pipeline_ms": 5224.3,
+          "n_chunks": 3,
+          "context_chars": 710,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "A plashy tramp by the side of the bridge caught Ichabod's sensitive ear.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-283",
+            "19_irving_legend_of_sleepy_hollow-35",
+            "19_irving_legend_of_sleepy_hollow-217"
+          ]
+        }
+      }
+    },
+    {
+      "row": 86,
+      "question": "When was this edition published by Project Gutenberg?",
+      "reference": "1993-06-01",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "When",
+          "w3897552"
+        ],
+        [
+          "edition",
+          "n06590446"
+        ],
+        [
+          "published",
+          "v00967625"
+        ],
+        [
+          "Project Gutenberg",
+          "w23301"
+        ]
+      ],
+      "wsd_ms": 771.5,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3242.8,
+          "answer_ms": 1144.6,
+          "pipeline_ms": 5158.9,
+          "n_chunks": 3,
+          "context_chars": 875,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "This edition was published by Project Gutenberg on 1993-06-01.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-1",
+            "18_thoreau_civil_disobedience-346",
+            "16_openchain_ai_sbom_compliance_guide_v1-65"
+          ]
+        }
+      }
+    },
+    {
+      "row": 87,
+      "question": "What was Ichabod Crane's approach to discipline?",
+      "reference": "Administered justice with discrimination rather than severity",
+      "source": "19_irving_legend_of_sleepy_hollow.pdf",
+      "synsets": [
+        [
+          "Ichabod",
+          "w3472254"
+        ],
+        [
+          "approach",
+          "n00941140"
+        ],
+        [
+          "discipline",
+          "n05996646"
+        ]
+      ],
+      "wsd_ms": 475.3,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2886.0,
+          "answer_ms": 1217.1,
+          "pipeline_ms": 4578.4,
+          "n_chunks": 3,
+          "context_chars": 640,
+          "hit": false,
+          "first_gold_rank": null,
+          "rr": 0.0,
+          "ans_in_ctx": false,
+          "correct": false,
+          "answer": "The provided context does not contain any information about Ichabod Crane's approach to discipline.",
+          "chunk_ids": [
+            "19_irving_legend_of_sleepy_hollow-143",
+            "17_owasp_top10_2004-138",
+            "17_owasp_top10_2004-139"
+          ]
+        }
+      }
+    },
+    {
+      "row": 88,
+      "question": "What is the Foundation's stance on warranties?",
+      "reference": "'AS-IS', WITH NO OTHER WARRANTIES",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "stance",
+          "n05082507"
+        ],
+        [
+          "warranties",
+          "n06685456"
+        ]
+      ],
+      "wsd_ms": 697.1,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 2807.8,
+          "answer_ms": 2691.9,
+          "pipeline_ms": 6196.8,
+          "n_chunks": 3,
+          "context_chars": 825,
+          "hit": true,
+          "first_gold_rank": 2,
+          "rr": 0.5,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The Foundation provides the work \"AS-IS\" with no other warranties of any kind, express or implied, including but not limited to warranties of merchantability or fitness for any purpose. They offer only a limited right of replacement or refund as specified, and disclaim all other warranties and damages except where prohibited by law.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-308",
+            "18_thoreau_civil_disobedience-317",
+            "18_thoreau_civil_disobedience-318"
+          ]
+        }
+      }
+    },
+    {
+      "row": 89,
+      "question": "What must appear prominently with Project Gutenberg works?",
+      "reference": "The full Project Gutenberg-tm License",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "appear",
+          "v02133435"
+        ],
+        [
+          "prominently",
+          "r00208390"
+        ],
+        [
+          "Project Gutenberg",
+          "w23301"
+        ],
+        [
+          "works",
+          "v02536557"
+        ]
+      ],
+      "wsd_ms": 700.4,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 4718.6,
+          "answer_ms": 1938.0,
+          "pipeline_ms": 7357.1,
+          "n_chunks": 3,
+          "context_chars": 844,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "The sentence set forth in paragraph 1.E.1, with active links to or immediate access to the full Project Gutenberg-tm License, must appear prominently whenever any copy of a Project Gutenberg-tm work is distributed or provided.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-279",
+            "18_thoreau_civil_disobedience-285",
+            "18_thoreau_civil_disobedience-290"
+          ]
+        }
+      }
+    },
+    {
+      "row": 90,
+      "question": "What is the release date of On the Duty of Civil Disobedience?",
+      "reference": "12 June 2004",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "release date",
+          "n05799952"
+        ],
+        [
+          "Duty",
+          "n01129920"
+        ],
+        [
+          "Civil Disobedience",
+          "n01179927"
+        ]
+      ],
+      "wsd_ms": 553.7,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3151.1,
+          "answer_ms": 896.8,
+          "pipeline_ms": 4601.6,
+          "n_chunks": 3,
+          "context_chars": 822,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": false,
+          "answer": "The release date of On the Duty of Civil Disobedience is 12 June 2004.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-6",
+            "18_thoreau_civil_disobedience-5",
+            "18_thoreau_civil_disobedience-4"
+          ]
+        }
+      }
+    },
+    {
+      "row": 91,
+      "question": "What does Paley say about justice in extreme cases?",
+      "reference": "Must do justice, cost what it may",
+      "source": "18_thoreau_civil_disobedience.pdf",
+      "synsets": [
+        [
+          "Paley",
+          "w1967998"
+        ],
+        [
+          "say",
+          "v01009240"
+        ],
+        [
+          "justice",
+          "n10225219"
+        ],
+        [
+          "extreme",
+          "a01535082"
+        ],
+        [
+          "cases",
+          "n01182654"
+        ]
+      ],
+      "wsd_ms": 594.3,
+      "methods": {
+        "leiden_top3": {
+          "retrieval_ms": 3424.3,
+          "answer_ms": 1865.4,
+          "pipeline_ms": 5884.0,
+          "n_chunks": 3,
+          "context_chars": 681,
+          "hit": true,
+          "first_gold_rank": 1,
+          "rr": 1.0,
+          "ans_in_ctx": true,
+          "correct": true,
+          "answer": "Based on the provided context, Paley appears not to have considered cases where the rule of expediency does not apply and where justice must be done regardless of the cost. For example, if someone unjustly takes a plank from a drowning man, they must restore it even if it means risking their own life. Paley suggests this would be inconvenient, implying that those who prioritize saving their own life in such cases will lose it. Thus, Paley acknowledges that in extreme cases, justice must be upheld no matter the personal cost, even if it goes against expediency or convenience.",
+          "chunk_ids": [
+            "18_thoreau_civil_disobedience-52",
+            "18_thoreau_civil_disobedience-53",
+            "18_thoreau_civil_disobedience-24"
+          ]
+        }
+      }
+    }
+  ]
+}

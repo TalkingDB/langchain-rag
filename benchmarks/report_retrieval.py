@@ -22,13 +22,14 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from eval.report import CSS, _notes_html, esc  # noqa: E402
 
-SYMBOLIC = {"exact_all", "exact_top5", "leiden_top5"}
+SYMBOLIC = {"exact_all", "exact_top5", "leiden_top5", "leiden_top3"}
 
 METHOD_LABELS = {
     "vector_top5": "Vector (top 5)",
     "exact_all": "Exact match (all chunks)",
     "exact_top5": "Exact match (top 5)",
     "leiden_top5": "Leiden (top 5)",
+    "leiden_top3": "Leiden (top 3)",
 }
 
 EXTRA_CSS = """
@@ -108,7 +109,7 @@ def build(paths: list[Path], title: str | None, notes: str | None, reingest: str
     # ---- comparison tiles: one tile per metric, one line per method
     tile_specs = [
         ("Answer accuracy", "accuracy", "{:.0%}", True, n_correct),
-        ("Retrieval hit@5", "hit_rate", "{:.0%}", True, None),
+        ("Retrieval hit@k", "hit_rate", "{:.0%}", True, None),
         ("MRR", "mrr", "{:.2f}", True, None),
         ("Answer in context", "ans_in_ctx", "{:.0%}", True, None),
         ("Median retrieval", "median_retrieval_ms", None, False, None),
@@ -129,7 +130,7 @@ def build(paths: list[Path], title: str | None, notes: str | None, reingest: str
 
     # ---- aggregate table
     agg_rows = [
-        ("Answer accuracy (LLM judge)", "accuracy", "{:.0%}", True), ("Retrieval hit@5", "hit_rate", "{:.0%}", True),
+        ("Answer accuracy (LLM judge)", "accuracy", "{:.0%}", True), ("Retrieval hit@k", "hit_rate", "{:.0%}", True),
         ("MRR", "mrr", "{:.2f}", True), ("Answer in retrieved context", "ans_in_ctx", "{:.0%}", True),
         ("Chunks sent to the LLM (mean)", "avg_chunks", "{:.1f}", None),
         ("Context characters (mean)", "avg_context_chars", "{:,.0f}", None),
@@ -200,7 +201,7 @@ def build(paths: list[Path], title: str | None, notes: str | None, reingest: str
     gloss = (
         '<dl class="gloss" style="display:grid;gap:4px 14px;grid-template-columns:minmax(0,max-content) 1fr">'
         "<dt><b>Answer accuracy</b></dt><dd>An LLM judge (gpt-4.1-mini) decides whether the generated answer conveys the same fact as the reference.</dd>"
-        "<dt><b>Retrieval hit@5</b></dt><dd>A retrieved chunk counts as gold when at least 50% of its word 4-grams fall inside the question's reference passage. Hit = at least one gold chunk among those retrieved.</dd>"
+        "<dt><b>Retrieval hit@k</b></dt><dd>A retrieved chunk counts as gold when at least 50% of its word 4-grams fall inside the question's reference passage. Hit = at least one gold chunk among those retrieved.</dd>"
         "<dt><b>MRR</b></dt><dd>1 / rank of the first gold chunk (1.0 = ranked first, 0 = none).</dd>"
         "<dt><b>Answer in context</b></dt><dd>The normalised reference answer appears word for word inside the retrieved chunks.</dd>"
         "<dt><b>Execution time</b></dt><dd>Wall-clock per question. Symbolic = WSD linking + retrieval (Neo4j subgraph + ranking) + answer. Vector = retrieval (query embedding + Chroma search) + answer.</dd></dl>")
@@ -208,8 +209,8 @@ def build(paths: list[Path], title: str | None, notes: str | None, reingest: str
     heading = title or (" vs ".join(labels) if len(methods) > 1 else "Retrieval Benchmark")
     sections = [
         f'<header class="top"><span class="eyebrow">langchain-rag / benchmarks/benchmark_retrieval.py</span>'
-        f'<h1>{esc(heading)}</h1><p class="lede">{n} questions ({esc(rows_desc)}), same chunk budget '
-        f"(top 5), same answer prompt, model and judge for every method. Generated {esc(when)}.</p></header>",
+        f'<h1>{esc(heading)}</h1><p class="lede">{n} questions ({esc(rows_desc)}), chunk budget as named '
+        f"per method, same answer prompt, model and judge throughout. Generated {esc(when)}.</p></header>",
         f'<section><div class="tiles">{tiles_html}</div></section>',
     ]
     if reingest:

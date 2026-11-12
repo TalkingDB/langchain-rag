@@ -24,6 +24,7 @@ import random
 import statistics
 import sys
 import time
+import urllib.error
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -100,11 +101,31 @@ def retrieve(graph: GraphRepository, method: str, synset_ids: list[str],
         return graph.find_chunks_by_synset_ids(synset_ids)[:TOP_K]
     if method == "leiden_top5":
         return graph.find_chunks_by_leiden(synset_ids, top_k=TOP_K)
+    if method == "leiden_top3":
+        return graph.find_chunks_by_leiden(synset_ids, top_k=3)
     raise ValueError(method)
 
 
-METHODS = ["exact_all", "exact_top5", "leiden_top5", "vector_top5"]
-SYMBOLIC_METHODS = {"exact_all", "exact_top5", "leiden_top5"}
+METHODS = ["exact_all", "exact_top5", "leiden_top5", "vector_top5"]  # run by default
+ALL_METHODS = METHODS + ["leiden_top3"]
+SYMBOLIC_METHODS = {"exact_all", "exact_top5", "leiden_top5", "leiden_top3"}
+NETWORK_ERRORS = (urllib.error.URLError, ConnectionError, TimeoutError)
+
+
+def timed_wsd(question: str, attempts: int = 6) -> tuple[list[dict], float]:
+    """WSD-link the question, retrying dropped connections with backoff. Returns the senses
+    and the duration of the successful call only, so retries don't distort the timings."""
+    for attempt in range(1, attempts + 1):
+        t = time.perf_counter()
+        try:
+            senses = to_senses(link_entities(question))
+            return senses, (time.perf_counter() - t) * 1000
+        except NETWORK_ERRORS as e:
+            if attempt == attempts:
+                raise
+            wait = min(60, 5 * 2 ** (attempt - 1))
+            print(f"  WSD call failed ({e}); retry {attempt}/{attempts - 1} in {wait}s", flush=True)
+            time.sleep(wait)
 
 
 def main():
@@ -114,8 +135,10 @@ def main():
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--first", action="store_true",
                         help="use the first N rows of the sheet instead of a random sample")
-    parser.add_argument("--methods", nargs="+", default=METHODS, choices=METHODS)
+    parser.add_argument("--methods", nargs="+", default=METHODS, choices=ALL_METHODS)
     parser.add_argument("--out", default="benchmarks/results.json")
+    parser.add_argument("--resume", action="store_true",
+                        help="keep the questions already in --out (saved after each question) and run the rest")
     args = parser.parse_args()
     methods = args.methods
 
@@ -137,14 +160,29 @@ def main():
 
         vectordb = Chroma(persist_directory=CHROMA_PATH, embedding_function=OpenAIEmbeddings())
     results = []
+    if args.resume and os.path.exists(args.out):
+        with open(args.out, encoding="utf-8") as f:
+            results = [r for r in json.load(f)["results"] if set(methods) <= set(r["methods"])]
+        print(f"Resuming: {len(results)} questions already in {args.out}", flush=True)
+    done = {r["row"] for r in results}
+    os.makedirs(os.path.dirname(args.out) or ".", exist_ok=True)
+
+    def save(summary=None):
+        """Write after every question, so a crash loses at most the question in progress."""
+        tmp = args.out + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump({"args": vars(args), "summary": summary or {}, "results": results},
+                      f, indent=2, ensure_ascii=False)
+        os.replace(tmp, args.out)
+
     try:
         for qi, (row_no, row) in enumerate(sample, 1):
+            if row_no in done:
+                continue
             question, reference = row["user_input"], row["reference"]
             gold_grams = set().union(*(ngrams(words(c)) for c in parse_contexts(row["reference_contexts"])))
 
-            t = time.perf_counter()
-            senses = to_senses(link_entities(question)) if needs_wsd else []
-            wsd_ms = (time.perf_counter() - t) * 1000 if needs_wsd else 0.0
+            senses, wsd_ms = timed_wsd(question) if needs_wsd else ([], 0.0)
             synset_ids = list(dict.fromkeys(s["synset_id"] for s in senses))
             entry = {
                 "row": row_no,
@@ -199,8 +237,10 @@ def main():
                 flush=True,
             )
             results.append(entry)
+            save()
     finally:
         graph.close()
+    results.sort(key=lambda r: r["row"])
 
     summary = {}
     for method in methods:
@@ -225,9 +265,7 @@ def main():
             f" {s['avg_chunks']:11.1f} {s['avg_context_chars']:14.0f} {s['median_retrieval_ms']:12.1f}"
         )
 
-    os.makedirs(os.path.dirname(args.out) or ".", exist_ok=True)
-    with open(args.out, "w", encoding="utf-8") as f:
-        json.dump({"args": vars(args), "summary": summary, "results": results}, f, indent=2, ensure_ascii=False)
+    save(summary)
     print(f"\nWrote {args.out}")
 
 
