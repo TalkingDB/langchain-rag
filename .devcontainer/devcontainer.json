@@ -1,6 +1,6 @@
 {
     "name": "Symbolic RAG Development Environment",
-    "dockerComposeFile": "../docker-compose.yml",
+    "dockerComposeFile": "../docker-compose-local.yml",
     "service": "neo4j",
     "workspaceFolder": "/workspace",
     "forwardPorts": [
