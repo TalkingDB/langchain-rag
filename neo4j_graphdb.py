@@ -4,6 +4,10 @@ from typing import Any
 
 from neo4j import Driver, GraphDatabase
 
+# Extended Lesk index, built once per process and keyed by (database, MENTIONS count) so it
+# is rebuilt automatically when the graph changes.
+_LESK_CACHE: dict[tuple[str, int], Any] = {}
+
 
 class GraphRepository:
     """
@@ -264,3 +268,72 @@ class GraphRepository:
             query, synset_ids=synset_ids, database_=self.database
         )
         return [record.data() for record in records]
+
+    # --------------------------------------------------
+    # Extended Lesk retrieval
+    # --------------------------------------------------
+
+    def prepare_extended_lesk(self) -> dict[str, int]:
+        """Build (or reuse) the Extended Lesk index: every chunk's senses and every sense's
+        extended gloss (its gloss plus the glosses of related WordNet senses)."""
+        from extended_lesk import LeskIndex, ensure_wordnet
+
+        records, _, _ = self.driver.execute_query(
+            "MATCH ()-[m:MENTIONS]->() RETURN count(m) AS n", database_=self.database
+        )
+        key = (self.database, int(records[0]["n"]))
+        if key not in _LESK_CACHE:
+            ensure_wordnet()
+            rows, _, _ = self.driver.execute_query(
+                "MATCH (c:Chunk)-[:MENTIONS]->(s:Sense) "
+                "RETURN DISTINCT c.id AS chunk_id, s.synset_id AS synset_id, s.sense AS gloss",
+                database_=self.database,
+            )
+            _LESK_CACHE.clear()
+            _LESK_CACHE[key] = LeskIndex.build(
+                [(r["chunk_id"], r["synset_id"], r["gloss"]) for r in rows]
+            )
+        index = _LESK_CACHE[key]
+        return {"chunks": len(index.chunk_senses), "senses": len(index.glosses), "mentions": key[1]}
+
+    def find_chunks_by_extended_lesk(
+        self,
+        synset_ids: list[str],
+        top_k: int = 5,
+        candidates: int = 100,
+        related_weight: float = 0.8,
+    ) -> list[dict[str, Any]]:
+        """
+        Rank chunks with Extended Lesk relatedness (Banerjee & Pedersen) to the query's synsets.
+
+        For each query sense, relatedness to every sense in the graph is the phrasal overlap
+        of their extended glosses (gloss + glosses of hypernyms, hyponyms, meronyms, holonyms,
+        also-see, similar-to, attributes, entailments, causes; each shared phrase of n words
+        scores n^2). The identical sense scores 1, related senses up to `related_weight`.
+        A chunk's score is the idf-weighted sum, over query senses, of the best relatedness to
+        any sense the chunk mentions, so chunks can match on senses related to the query's,
+        not only identical ones. `candidates` bounds how many senses per query sense get the
+        full phrasal-overlap scoring (pre-selected by shared gloss words).
+
+        Returns the top_k chunks as {chunk_id, source, text, score, matches}, where matches is
+        the number of query synsets the chunk mentions directly (same contract as before).
+        """
+        seeds = list(dict.fromkeys(synset_ids))
+        if not seeds:
+            return []
+        self.prepare_extended_lesk()
+        index = next(iter(_LESK_CACHE.values()))
+        ranked = index.rank(seeds, top_k=top_k, candidates=candidates, related_weight=related_weight)
+        if not ranked:
+            return []
+        details, _, _ = self.driver.execute_query(
+            "MATCH (c:Chunk) WHERE c.id IN $ids RETURN c.id AS chunk_id, c.source AS source, c.text AS text",
+            ids=[cid for cid, _, _ in ranked],
+            database_=self.database,
+        )
+        by_id = {d["chunk_id"]: d.data() for d in details}
+        return [
+            {**by_id[cid], "score": score, "matches": direct}
+            for cid, score, direct in ranked
+            if cid in by_id
+        ]

@@ -19,3 +19,4 @@ fastapi>=0.111
 uvicorn[standard]>=0.30
 
 # install markdown depenendies with: `pip install "unstructured[md]"` after install the requirements file. Leave this line commented out. 
+nltk>=3.8 # WordNet 3.0 relations for Extended Lesk (corpus auto-downloaded on first use)
