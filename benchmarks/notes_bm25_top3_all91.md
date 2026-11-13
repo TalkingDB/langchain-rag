@@ -1,0 +1,31 @@
+- **Answer accuracy: 64 of 91 (70%).** That ties the vector pipeline (64) and beats Leiden top 3 (61) and PPR top 3 (58) on the same questions, prompt, model and judge. One of the 27 "wrong" verdicts is debatable: in #68 the answer names Ichabod's rival as "Brom Van Brunt", the reference says "Abraham", and Brom is short for Abraham. Counting it, accuracy is 65 of 91 (71%).
+- **Retrieval accuracy: 69 of 91 (76%), the best of the four methods.** A gold chunk is among the 3 retrieved for 69 questions. It is ranked first for 54 (59%), second for 10 and third for 5 (MRR 0.67). Leiden finds 68, PPR 66 and vector 65.
+- **Retrieval is about 130× faster than Leiden.** The median BM25 lookup takes 23 ms (max 113 ms), against 3.1 s for Leiden and 2.9 s for PPR. It is a single Cypher query with no graph building or clustering. The median end-to-end time is 2.3 s: WSD 1.2 s + retrieval 0.02 s + answer 1.0 s. WSD is now most of the cost.
+- **Why the 27 wrong answers failed:**
+  - **15: the gold chunk wasn't in the top 3** (#3, #16, #21, #22, #26, #32, #33, #42, #49, #52, #54, #63, #79, #80, #87). Most of these questions carry only one or two meaningful senses after WSD ("name, father" for #3; "found, hat" for #21; "consider, children" for #54). A frequent sense like "name" or "title" can't single out one passage.
+  - **11: the gold chunk was retrieved, but the answer sentence wasn't in it** (#8, #13, #14, #15, #31, #43, #50, #71, #77, #83, #84). The answer is in a neighbouring chunk. This happens to BM25 more often than to vector (6), because BM25 favours the chunk with the most matching senses, which is often the setup sentence rather than the answer.
+  - **1: the answer was in the context** (#68, the judge case above).
+- **7 answers were correct without a gold hit** (#10, #18, #29, #37, #47, #55, #81). The fact was in a chunk that overlaps the reference passage by less than 50%.
+- **It drifts across documents more than vector.** 213 of 270 retrieved chunks (79%) come from the question's document, against 98% for vector and 87% for Leiden. Shared senses like "government", "section" or "guide" pull in chunks from other documents. 38 questions got at least one off-document chunk, but only 11 of those were answered wrong, because the gold chunk usually still ranks first.
+- **Names now work.** The Legend of Sleepy Hollow scores 22/35 (63%), against 17/35 for vector. Rare senses like Brom, Katrina or Tarry Town carry high weight. Per document:
+  - OWASP Top 10: 20/25 (80%)
+  - OpenChain AI SBOM guide: 7/9
+  - Thoreau: 15/22 (68%)
+- **BM25 and vector fail on different questions.**
+  - 12 questions only BM25 gets right: #2, #9, #27, #29, #35, #37, #40, #64, #69, #72, #74, #91.
+  - 12 questions only vector gets right: #8, #13, #16, #21, #31, #32, #43, #52, #63, #71, #77, #79.
+  - 15 questions both get wrong. Either one being right would cover 76 of 91 (84%).
+- **Against Leiden:** 9 questions only BM25 gets right, 6 only Leiden, and 21 both get wrong. BM25 keeps most of what Leiden gets right, at about 1% of the retrieval time.
+
+## Setup
+
+- **Questions:** all 91 rows of `data/eval/testset_stripped.csv` (in sheet order).
+- **Method:** `find_chunks_by_bm25(synset_ids, top_k=3)` in `neo4j_graphdb.py`. Okapi BM25 treats each chunk as a bag of synset ids (its MENTIONS edges), with k1 = 1.2 and b = 0.75.
+  - **Query:** the question's WSD synsets, the same ones Leiden and PPR use.
+  - **idf** = ln(1 + (N − df + 0.5) / (df + 0.5)), where N is the 1,034 chunks.
+  - **tf** is the number of MENTIONS edges from the chunk to that sense.
+  - **Chunk length** is the chunk's MENTIONS count (average 19.8).
+  - Only chunks that mention a question sense can score.
+- **Answer accuracy:** the pipeline's answer prompt with gpt-4.1-mini at temperature 0. The same model judges whether the answer conveys the reference fact.
+- **Retrieval accuracy:** a retrieved chunk counts as gold when at least 50% of its word 4-grams fall inside the question's reference passage. A question scores when any of the 3 chunks is gold.
+- **Data:** the existing Neo4j graph, with WordNet loaded (BM25 reads only Chunk–MENTIONS–Sense edges). Same questions, prompt, model and judge as the Leiden, PPR and vector top-3 reports.

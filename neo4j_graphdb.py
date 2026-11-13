@@ -266,6 +266,75 @@ class GraphRepository:
         )
         return [record.data() for record in records]
 
+    _BM25_STATS_QUERY = """
+        MATCH (c:Chunk)
+        RETURN count(c) AS n, avg(COUNT { (c)-[:MENTIONS]->(:Sense) }) AS avgdl
+        """
+
+    # Every chunk that mentions a query sense, with the term frequency (MENTIONS edges to
+    # that sense), the sense's document frequency, and the chunk's length (all its MENTIONS).
+    _BM25_CANDIDATES_QUERY = """
+        MATCH (s:Sense) WHERE s.synset_id IN $synset_ids
+        WITH s, COUNT { (:Chunk)-[:MENTIONS]->(s) } AS df
+        MATCH (c:Chunk)-[m:MENTIONS]->(s)
+        WITH c, s, df, count(m) AS tf
+        WITH c, collect({synset_id: s.synset_id, tf: tf, df: df}) AS terms
+        RETURN c.id AS chunk_id, c.source AS source, c.text AS text,
+               COUNT { (c)-[:MENTIONS]->(:Sense) } AS dl, terms
+        """
+
+    def find_chunks_by_bm25(
+        self,
+        synset_ids: list[str],
+        top_k: int = 5,
+        k1: float = 1.2,
+        b: float = 0.75,
+    ) -> list[dict[str, Any]]:
+        """
+        Rank chunks with Okapi BM25 over senses: each chunk is a bag of synset ids (its
+        MENTIONS edges) and the query is the question's synset ids.
+
+            score(c) = sum over query senses s in c of
+                       idf(s) * tf(s, c) * (k1 + 1) / (tf(s, c) + k1 * (1 - b + b * |c| / avgdl))
+            idf(s)   = ln(1 + (N - df(s) + 0.5) / (df(s) + 0.5))
+
+        N and avgdl are over all chunks; tf is the number of MENTIONS edges from the chunk to
+        the sense (one per distinct surface form); |c| is the chunk's total MENTIONS count.
+        Only chunks that mention a query sense directly can score, so there is no drift to
+        neighbouring passages. Ties: more distinct query senses matched, then chunk id.
+
+        Returns the top_k chunks as {chunk_id, source, text, score, matches}.
+        """
+        seeds = list(dict.fromkeys(synset_ids))
+        if not seeds:
+            return []
+
+        if not hasattr(self, "_bm25_stats"):
+            stats, _, _ = self.driver.execute_query(self._BM25_STATS_QUERY, database_=self.database)
+            self._bm25_stats = (stats[0]["n"], stats[0]["avgdl"] or 1.0)
+        n, avgdl = self._bm25_stats
+
+        records, _, _ = self.driver.execute_query(
+            self._BM25_CANDIDATES_QUERY, synset_ids=seeds, database_=self.database
+        )
+
+        scored = []
+        for r in records:
+            norm = k1 * (1 - b + b * r["dl"] / avgdl)
+            score = sum(
+                math.log(1 + (n - t["df"] + 0.5) / (t["df"] + 0.5)) * t["tf"] * (k1 + 1) / (t["tf"] + norm)
+                for t in r["terms"]
+            )
+            scored.append({
+                "chunk_id": r["chunk_id"],
+                "source": r["source"],
+                "text": r["text"],
+                "score": round(score, 6),
+                "matches": len(r["terms"]),
+            })
+        scored.sort(key=lambda c: (-c["score"], -c["matches"], c["chunk_id"]))
+        return scored[:top_k]
+
     # Local subgraph around the query: seed sense -> chunk -> sense -> chunk, with the
     # number of MENTIONS edges between each chunk and sense as the edge weight.
     _LOCAL_SUBGRAPH_QUERY = """

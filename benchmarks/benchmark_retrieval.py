@@ -1,4 +1,4 @@
-"""Benchmark retrieval: exact synset match, Leiden community ranking, and vector (Chroma) search.
+"""Benchmark retrieval: exact synset match, Leiden community ranking, sense BM25, and vector (Chroma) search.
 
 For a random sample of testset questions, every method gets the same WSD synsets for the
 question, then retrieves chunks from Neo4j, answers with the pipeline's prompt and model,
@@ -71,10 +71,10 @@ def parse_contexts(raw: str) -> list[str]:
         return ast.literal_eval(raw)
 
 
-def retrieve_vector(vectordb, question: str) -> list[dict]:
+def retrieve_vector(vectordb, question: str, k: int = TOP_K) -> list[dict]:
     """Top-k Chroma similarity search, exactly like the vector pipeline: if the best chunk's
     relevance is below the cutoff, nothing is retrieved (the pipeline then answers nothing)."""
-    results = vectordb.similarity_search_with_relevance_scores(question, k=TOP_K)
+    results = vectordb.similarity_search_with_relevance_scores(question, k=k)
     if not results or results[0][1] < VECTOR_MIN_RELEVANCE:
         return []
     return [
@@ -93,6 +93,8 @@ def retrieve(graph: GraphRepository, method: str, synset_ids: list[str],
              question: str = "", vectordb=None) -> list[dict]:
     if method == "vector_top5":
         return retrieve_vector(vectordb, question)
+    if method == "vector_top3":  # the vector pipeline's own k (query_data.py, vector_service.py)
+        return retrieve_vector(vectordb, question, k=3)
     if not synset_ids:
         return []
     if method == "exact_all":
@@ -103,12 +105,14 @@ def retrieve(graph: GraphRepository, method: str, synset_ids: list[str],
         return graph.find_chunks_by_leiden(synset_ids, top_k=TOP_K)
     if method == "leiden_top3":
         return graph.find_chunks_by_leiden(synset_ids, top_k=3)
+    if method == "bm25_top3":
+        return graph.find_chunks_by_bm25(synset_ids, top_k=3)
     raise ValueError(method)
 
 
 METHODS = ["exact_all", "exact_top5", "leiden_top5", "vector_top5"]  # run by default
-ALL_METHODS = METHODS + ["leiden_top3"]
-SYMBOLIC_METHODS = {"exact_all", "exact_top5", "leiden_top5", "leiden_top3"}
+ALL_METHODS = METHODS + ["leiden_top3", "vector_top3", "bm25_top3"]
+SYMBOLIC_METHODS = {"exact_all", "exact_top5", "leiden_top5", "leiden_top3", "bm25_top3"}
 NETWORK_ERRORS = (urllib.error.URLError, ConnectionError, TimeoutError)
 
 
@@ -152,7 +156,7 @@ def main():
     graph = GraphRepository()
     needs_wsd = any(m in SYMBOLIC_METHODS for m in methods)
     vectordb = None
-    if "vector_top5" in methods:
+    if any(m.startswith("vector_") for m in methods):
         from langchain_community.vectorstores import Chroma
         from langchain_openai import OpenAIEmbeddings
 
