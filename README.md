@@ -1,5 +1,10 @@
 # Langchain RAG Tutorial
 
+> [!NOTE]
+> **TalkingDB fork.** This repository started as a LangChain retrieval augmented generation (RAG) tutorial, and its original setup steps follow below. TalkingDB uses it as a research prototype that compares two ways of finding text for a question: vector search over embeddings, and symbolic retrieval that links the words of a query to word senses through a word sense disambiguation (WSD) service and a Neo4j graph. TalkingDB added the [REST API](#run-as-a-rest-api), the [WordNet graph load](#load-the-wordnet-graph-into-neo4j) and the [evaluation harness](#evaluation).
+>
+> **Status:** prototype, not a supported product. For TalkingDB's supported document retrieval, see [module-ttt](https://github.com/TalkingDB/module-ttt); for linking words to known entities, see [package-named-entity-linker](https://github.com/TalkingDB/package-named-entity-linker).
+
 ## Install dependencies
 
 1. Do the following before installing the dependencies found in `requirements.txt` file because of current challenges installing `onnxruntime` through `pip install onnxruntime`. 
